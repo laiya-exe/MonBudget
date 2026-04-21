@@ -47,7 +47,6 @@ sdk.dir=/chemin/vers/votre/Android/Sdk
 
 1. Synchroniser Gradle (Android Studio le fait automatiquement)
 2. Attendre le téléchargement des dépendances
-3. Cliquer sur **Run**
 
 ---
 
