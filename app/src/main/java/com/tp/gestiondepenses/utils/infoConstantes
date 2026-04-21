@@ -1,0 +1,105 @@
+Chat a dit :
+🛠️ 8. utils/ → outils
+
+Exemples :
+
+DateUtils → gérer les dates
+CurrencyUtils → format d’argent
+Constants → constantes globales
+
+👉 Ce sont des fonctions utiles partout dans le projet.
+
+
+Et je lui ai demande : Les constantes globales ne sont-elles pas censees etre dans le dossier res/values/ ?
+
+
+Bonne question — et la réponse est : **ça dépend du type de constante**. Les deux endroits (`res/values/` et `utils/Constants`) servent… mais pas pour les mêmes choses.
+
+---
+
+## 📁 1. `res/values/` → constantes **liées aux ressources Android**
+
+Dans ce dossier (ex : `strings.xml`, `colors.xml`, `dimens.xml`), tu mets :
+
+👉 Des constantes **destinées à l’UI** ou dépendantes du système Android
+
+Exemples :
+
+* textes (`strings.xml`)
+* couleurs (`colors.xml`)
+* tailles (`dimens.xml`)
+* styles, thèmes
+
+✔️ Exemple :
+
+```xml
+<string name="app_name">Gestion Dépenses</string>
+<color name="primary">#6200EE</color>
+```
+
+👉 Pourquoi ici ?
+
+* support du multilingue 🌍
+* gestion centralisée par Android
+* facilement modifiable sans toucher au code
+
+---
+
+## 🧠 2. `utils/Constants` → constantes **logiques / techniques**
+
+Là, tu mets des constantes utilisées dans le **code Java/Kotlin**, pas dans l’UI.
+
+Exemples :
+
+* clés pour Intent :
+
+```kotlin
+const val EXTRA_DEPENSE_ID = "extra_depense_id"
+```
+
+* noms de tables ou colonnes :
+
+```kotlin
+const val TABLE_DEPENSE = "depenses"
+```
+
+* valeurs fixes :
+
+```kotlin
+const val MAX_BUDGET = 100000
+```
+
+* clés API :
+
+```kotlin
+const val BASE_URL = "https://api.example.com"
+```
+
+---
+
+## ⚖️ La vraie différence
+
+| Type de constante       | Où la mettre             |
+| ----------------------- | ------------------------ |
+| Texte affiché à l’écran | `res/values/strings.xml` |
+| Couleurs / dimensions   | `res/values/`            |
+| Clés techniques         | `Constants.kt`           |
+| Logique métier          | `Constants.kt`           |
+
+---
+
+## ⚠️ Erreur fréquente
+
+Mettre des textes UI dans `Constants.kt` ❌
+➡️ Mauvais pour la traduction et la maintenance
+
+---
+
+## ✅ Règle simple à retenir
+
+* 👉 **Si Android doit l’afficher → `res/values/`**
+* 👉 **Si le code l’utilise → `Constants`**
+
+---
+
+Si tu veux, je peux te montrer **un exemple concret mélangeant les deux dans un vrai écran Android**, pour que tu voies bien comment ils travaillent ensemble.
