@@ -6,20 +6,27 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo_monbudget"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logo_monbudget"
         android:supportsRtl="true"
         android:theme="@style/Theme.MonBudget">
+
+        <!-- SplashActivity : écran de lancement -->
         <activity
-            android:name=".MainActivity"
+            android:name="com.tp.gestiondepenses.ui.SplashActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <!-- RevenusActivity -->
+        <activity
+            android:name="com.tp.gestiondepenses.ui.RevenusActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>
