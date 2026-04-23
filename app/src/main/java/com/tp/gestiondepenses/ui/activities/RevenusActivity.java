@@ -1,4 +1,4 @@
-package com.tp.gestiondepenses.ui;
+package com.tp.gestiondepenses.ui.activities;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;

@@ -12,19 +12,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MonBudget">
 
-        <!-- SplashActivity : écran de lancement -->
+        <!-- Splash Screen : écran de lancement -->
         <activity
-            android:name="com.tp.gestiondepenses.ui.SplashActivity"
-            android:exported="true">
+            android:name=".ui.activities.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <!-- MainActivity : écran principal avec BottomNavigation -->
+        <activity
+            android:name=".ui.activities.MainActivity" />
+
         <!-- RevenusActivity -->
         <activity
-            android:name="com.tp.gestiondepenses.ui.RevenusActivity"
+            android:name="com.tp.gestiondepenses.ui.activities.RevenusActivity"
             android:exported="true" />
 
     </application>
