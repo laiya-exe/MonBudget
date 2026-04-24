@@ -5,16 +5,19 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.tp.gestiondepenses.database.AppDatabase;
-import com.tp.gestiondepenses.dao.RevenuDao;
+import com.tp.gestiondepenses.database.RevenuDao;
 import com.tp.gestiondepenses.model.Revenu;
 
 import java.util.List;
 import java.util.concurrent.Executors;
 
+/**
+ * Repository pour gérer les opérations sur les revenus.
+ */
 public class RevenuRepository {
 
-    private RevenuDao revenuDao;
-    private LiveData<List<Revenu>> allRevenus;
+    private final RevenuDao revenuDao;
+    private final LiveData<List<Revenu>> allRevenus;
 
     public RevenuRepository(Application application) {
         AppDatabase db = AppDatabase.getInstance(application);
@@ -23,18 +26,22 @@ public class RevenuRepository {
     }
 
     public void insert(Revenu revenu) {
-        Executors.newSingleThreadExecutor().execute(() -> {
-            revenuDao.insert(revenu);
-        });
+        Executors.newSingleThreadExecutor().execute(() -> revenuDao.insert(revenu));
     }
 
     public LiveData<List<Revenu>> getAllRevenus() {
         return allRevenus;
     }
 
+    public void deleteById(int id) {
+        Executors.newSingleThreadExecutor().execute(() -> revenuDao.deleteById(id));
+    }
+
     public void delete(Revenu revenu) {
-        Executors.newSingleThreadExecutor().execute(() -> {
-            revenuDao.deleteById(revenu.id);
-        });
+        Executors.newSingleThreadExecutor().execute(() -> revenuDao.deleteById(revenu.getId()));
+    }
+
+    public LiveData<Double> getTotalRevenusParMois(long start, long end) {
+        return revenuDao.getTotalRevenusParMois(start, end);
     }
 }

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">MonBudget</string>
+    <string-array name="sources_revenus">
+        <item>Salaire</item>
+        <item>Commerce</item>
+        <item>Freelance</item>
+        <item>Don</item>
+        <item>Autre</item>
+    </string-array>
 </resources>

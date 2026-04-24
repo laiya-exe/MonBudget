@@ -2,52 +2,42 @@ package com.tp.gestiondepenses.ui.activities;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.tp.gestiondepenses.R;
-import com.tp.gestiondepenses.adapters.RevenuAdapter;
 import com.tp.gestiondepenses.model.Revenu;
 import com.tp.gestiondepenses.viewmodel.RevenuViewModel;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+/**
+ * Activity permettant d'ajouter un revenu via un formulaire.
+ */
 public class RevenusActivity extends AppCompatActivity {
-
-    private RevenuViewModel revenuViewModel;
-    private RevenuAdapter adapter;
-    private RecyclerView recyclerView;
 
     private EditText edtMontant, edtDescription, edtSourceAutre, edtDate;
     private Spinner spinnerSource;
     private Button btnAjouter;
-
     private Calendar calendar;
     private SimpleDateFormat sdf;
+    private RevenuViewModel revenuViewModel;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_revenus);
 
-        // Initialisation UI
-        recyclerView = findViewById(R.id.recyclerRevenus);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        // Initialisation des vues
         edtMontant = findViewById(R.id.edtMontant);
         edtDescription = findViewById(R.id.edtDescription);
         edtSourceAutre = findViewById(R.id.edtSourceAutre);
@@ -55,43 +45,28 @@ public class RevenusActivity extends AppCompatActivity {
         spinnerSource = findViewById(R.id.spinnerSource);
         btnAjouter = findViewById(R.id.btnAjouter);
 
-        // ViewModel
         revenuViewModel = new ViewModelProvider(this).get(RevenuViewModel.class);
 
-        // Adapter avec liste vide + ViewModel
-        adapter = new RevenuAdapter(new ArrayList<>(), revenuViewModel);
-        recyclerView.setAdapter(adapter);
-
-        // Observer les données
-        revenuViewModel.getAllRevenus().observe(this, revenus -> {
-            adapter = new RevenuAdapter(revenus, revenuViewModel);
-            recyclerView.setAdapter(adapter);
-        });
-
-        // Spinner Source
+        // Spinner des sources
         String[] sources = {"Salaire", "Commerce", "Freelance", "Don", "Autre"};
         ArrayAdapter<String> adapterSpinner = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, sources);
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerSource.setAdapter(adapterSpinner);
 
-        spinnerSource.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerSource.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (sources[position].equals("Autre")) {
-                    edtSourceAutre.setVisibility(View.VISIBLE);
-                } else {
-                    edtSourceAutre.setVisibility(View.GONE);
-                }
+            public void onItemSelected(android.widget.AdapterView<?> parent, android.view.View view, int position, long id) {
+                edtSourceAutre.setVisibility(sources[position].equals("Autre") ? android.view.View.VISIBLE : android.view.View.GONE);
             }
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {}
         });
 
         // DatePicker
         calendar = Calendar.getInstance();
         sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        edtDate.setText(sdf.format(calendar.getTime())); // date du jour par défaut
+        edtDate.setText(sdf.format(calendar.getTime()));
 
         edtDate.setOnClickListener(v -> {
             DatePickerDialog datePicker = new DatePickerDialog(this,
@@ -109,35 +84,31 @@ public class RevenusActivity extends AppCompatActivity {
         btnAjouter.setOnClickListener(v -> {
             String montantStr = edtMontant.getText().toString();
             String source = spinnerSource.getSelectedItem().toString();
-            if (source.equals("Autre")) {
-                source = edtSourceAutre.getText().toString();
-            }
+            if (source.equals("Autre")) source = edtSourceAutre.getText().toString();
             String dateStr = edtDate.getText().toString();
 
             if (montantStr.isEmpty() || source.isEmpty() || dateStr.isEmpty()) {
-                new AlertDialog.Builder(this)
-                        .setTitle("Champs obligatoires manquants")
-                        .setMessage("Veuillez remplir Montant, Source et Date avant d’ajouter un revenu.")
-                        .setPositiveButton("OK", null)
-                        .show();
+                Toast.makeText(this, "Veuillez remplir Montant, Source et Date", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            // Création du revenu avec setters
             Revenu r = new Revenu();
-            r.montant = Double.parseDouble(montantStr);
-            r.source = source;
-            r.description = edtDescription.getText().toString();
-            r.date = calendar.getTimeInMillis();
-            r.created_at = System.currentTimeMillis();
+            r.setSource(source);
+            r.setMontant(Double.parseDouble(montantStr));
+            r.setDate(calendar.getTimeInMillis());
+            r.setDescription(edtDescription.getText().toString());
+            r.setCreated_at(System.currentTimeMillis());
 
             revenuViewModel.insert(r);
 
             Toast.makeText(this, "Revenu ajouté avec succès", Toast.LENGTH_SHORT).show();
 
+            // Réinitialiser le formulaire
             edtMontant.setText("");
             edtSourceAutre.setText("");
             edtDescription.setText("");
-            edtDate.setText(sdf.format(Calendar.getInstance().getTime())); // reset à aujourd’hui
+            edtDate.setText(sdf.format(Calendar.getInstance().getTime()));
         });
     }
 }

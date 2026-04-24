@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.tp.gestiondepenses.dao.RevenuDao;
+import com.tp.gestiondepenses.database.RevenuDao;
 import com.tp.gestiondepenses.model.Revenu;
 
 @Database(entities = {Revenu.class}, version = 1)
