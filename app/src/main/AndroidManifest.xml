@@ -24,14 +24,16 @@
         </activity>
 
         <!-- MainActivity : écran principal avec BottomNavigation -->
-        <activity
-            android:name=".ui.activities.MainActivity" />
+        <activity android:name=".ui.activities.MainActivity" />
 
         <!-- RevenusActivity -->
-        <activity
-            android:name="com.tp.gestiondepenses.ui.activities.RevenusActivity"
-            android:exported="true" />
+        <activity android:name=".ui.activities.RevenusActivity" android:exported="true" />
+
+        <!-- DetailsRevenusActivity -->
+        <activity android:name=".ui.activities.DetailsRevenusActivity" android:exported="true" />
+
+        <!-- FormulaireRevenusActivity -->
+        <activity android:name=".ui.activities.FormulaireRevenusActivity" android:exported="true" />
 
     </application>
-
 </manifest>
