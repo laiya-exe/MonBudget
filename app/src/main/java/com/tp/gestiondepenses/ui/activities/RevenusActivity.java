@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tp.gestiondepenses.R;
-import com.tp.gestiondepenses.adapter.RevenuAdapter;
+import com.tp.gestiondepenses.adapters.RevenuAdapter;
 import com.tp.gestiondepenses.model.Revenu;
 import com.tp.gestiondepenses.viewmodel.RevenuViewModel;
 
