@@ -1,4 +1,4 @@
-package com.tp.gestiondepenses.adapters;
+package com.tp.gestiondepenses.adapter;
 
 import android.app.AlertDialog;
 import android.view.LayoutInflater;

@@ -1,6 +1,5 @@
 package com.tp.gestiondepenses.ui.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -13,12 +12,9 @@ import android.widget.TextView;
 import android.graphics.Color;
 
 import com.tp.gestiondepenses.R;
-import com.tp.gestiondepenses.model.Transaction;
-import com.tp.gestiondepenses.adapters.TransactionAdapter;
+import com.tp.gestiondepenses.adapter.TransactionAdapter;
 import com.tp.gestiondepenses.viewmodel.DashboardViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.List;
 
 public class DashboardFragment extends Fragment {
     private DashboardViewModel viewModel;

@@ -1,4 +1,4 @@
-package com.tp.gestiondepenses.adapters;
+package com.tp.gestiondepenses.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
