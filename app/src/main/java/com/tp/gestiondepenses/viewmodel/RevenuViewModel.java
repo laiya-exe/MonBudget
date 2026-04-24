@@ -2,6 +2,7 @@ package com.tp.gestiondepenses.viewmodel;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
@@ -10,12 +11,15 @@ import com.tp.gestiondepenses.repository.RevenuRepository;
 
 import java.util.List;
 
+/**
+ * ViewModel pour gérer les revenus.
+ */
 public class RevenuViewModel extends AndroidViewModel {
 
-    private RevenuRepository repository;
-    private LiveData<List<Revenu>> allRevenus;
+    private final RevenuRepository repository;
+    private final LiveData<List<Revenu>> allRevenus;
 
-    public RevenuViewModel(Application application) {
+    public RevenuViewModel(@NonNull Application application) {
         super(application);
         repository = new RevenuRepository(application);
         allRevenus = repository.getAllRevenus();
@@ -25,11 +29,15 @@ public class RevenuViewModel extends AndroidViewModel {
         repository.insert(revenu);
     }
 
+    public void deleteById(int id) {
+        repository.deleteById(id);
+    }
+
     public LiveData<List<Revenu>> getAllRevenus() {
         return allRevenus;
     }
 
-    public void delete(Revenu revenu) {
-        repository.delete(revenu);
+    public LiveData<Double> getTotalRevenusParMois(long start, long end) {
+        return repository.getTotalRevenusParMois(start, end);
     }
 }
