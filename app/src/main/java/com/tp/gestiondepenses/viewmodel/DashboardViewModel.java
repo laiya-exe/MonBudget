@@ -57,7 +57,11 @@ public class DashboardViewModel extends ViewModel {
 
     private void updateTransactions(List<Depense> depenses, List<Revenu> revenus) {
         List<Transaction> all = new ArrayList<>();
-        if (depenses != null) all.addAll(depenses);
+        if (depenses != null) {
+            for (Depense d : depenses) {
+                all.add(d);
+            }
+        }
         if (revenus != null) all.addAll(revenus);
 
         // Tri par date décroissante

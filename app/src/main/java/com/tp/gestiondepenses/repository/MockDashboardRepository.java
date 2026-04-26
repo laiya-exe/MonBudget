@@ -27,12 +27,11 @@ public class MockDashboardRepository {
     public LiveData<List<Depense>> getLatestDepenses(int limit) {
         MutableLiveData<List<Depense>> data = new MutableLiveData<>();
         List<Depense> list = new ArrayList<>();
-        list.add(new Depense(1, null, 25000, System.currentTimeMillis() - 3600000,
-                "Restaurant", "Espèces"));
-        list.add(new Depense(2, null, 10000, System.currentTimeMillis() - 7200000,
-                "Essence", "Carte"));
+        list.add(new Depense("Alimentation", 25000, System.currentTimeMillis() - 3600000, "", "Espèces"));
+        list.add(new Depense("Transport", 10000, System.currentTimeMillis() - 7200000, "Essence", "Carte"));
         data.setValue(list);
         return data;
+
     }
 
     public LiveData<List<Revenu>> getLatestRevenus(int limit) {

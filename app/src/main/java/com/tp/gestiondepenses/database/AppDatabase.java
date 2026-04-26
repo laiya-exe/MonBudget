@@ -6,12 +6,16 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.tp.gestiondepenses.database.RevenuDao;
+import com.tp.gestiondepenses.model.Depense;      // AJOUTÉ
 import com.tp.gestiondepenses.model.Revenu;
+import com.tp.gestiondepenses.database.DepenseDao; // AJOUTÉ
+import com.tp.gestiondepenses.database.RevenuDao;
 
-@Database(entities = {Revenu.class}, version = 1)
+@Database(entities = {Revenu.class, Depense.class}, version = 2, exportSchema = false)  // MODIFIÉ : ajout Depense.class + version 2
 public abstract class AppDatabase extends RoomDatabase {
-    public abstract RevenuDao revenuDao();
+
+    public abstract RevenuDao revenuDao();      // Existant
+    public abstract DepenseDao depenseDao();    // AJOUTÉ
 
     private static AppDatabase INSTANCE;
 
@@ -19,7 +23,7 @@ public abstract class AppDatabase extends RoomDatabase {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             AppDatabase.class, "monbudget-db")
-                    .fallbackToDestructiveMigration()
+                    .fallbackToDestructiveMigration()  // Permet de recréer la base avec la nouvelle version
                     .build();
         }
         return INSTANCE;
