@@ -1,0 +1,71 @@
+[33mcommit 2c6a6641b7de5f1fc917367509b21bdb0d8f91ce[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32morigin/versionstable24.04[m[33m, [m[1;31morigin/origin/versionstable24.04[m[33m)[m
+Author: laiya-exe <akinlaiyaakponikpe@gmail.com>
+Date:   Fri Apr 24 13:50:21 2026 +0000
+
+    Sauvegarde de la version stable sans conflit - navigation & gestion revenu
+
+[33mcommit ff87e3c31bdd04ef03b92915f2e1bd1d7545973f[m[33m ([m[1;32mnavigation[m[33m)[m
+Merge: 29cd0aa f5259df
+Author: laiya-exe <akinlaiyaakponikpe@gmail.com>
+Date:   Fri Apr 24 12:44:12 2026 +0000
+
+    Resolution de conflit revenu et revenuActivity
+
+[33mcommit 29cd0aa9b9f11ccc35c857dd6ca600ad99b0c43f[m
+Author: laiya-exe <akinlaiyaakponikpe@gmail.com>
+Date:   Fri Apr 24 12:27:53 2026 +0000
+
+    ajout de la page de navigation
+
+[33mcommit f5259dfc26815219e430794824a8cdef6e724ecc[m
+Author: MrStcrm <elieviagbo03@gmail.com>
+Date:   Fri Apr 24 11:09:39 2026 +0000
+
+    Amélioration de la partie Revenu'
+
+[33mcommit e06d557852eb6c8ece861bebaa107bf29b8c8843[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 6bb9f1c 65a5410
+Author: Laiya <164087231+laiya-exe@users.noreply.github.com>
+Date:   Thu Apr 23 13:52:01 2026 +0000
+
+    Merge pull request #1 from laiya-exe/navigation
+    
+    Barre de navigation Merge
+
+[33mcommit 65a5410b1018f2e229cb2bd523bda3ee7f94cdac[m
+Author: laiya-exe <akinlaiyaakponikpe@gmail.com>
+Date:   Thu Apr 23 13:15:26 2026 +0000
+
+    ajout de la barre de navigation et mise en place de la navigation
+
+[33mcommit 210722c869344bec16570d34d3df6b34e50c5473[m
+Author: laiya-exe <akinlaiyaakponikpe@gmail.com>
+Date:   Thu Apr 23 12:30:00 2026 +0000
+
+    commit revenu initial de MrStcrm
+
+[33mcommit 1b18e3000f5460b2722d9e89121ce6071e202bd9[m[33m ([m[1;32mrevenu[m[33m)[m
+Author: MrStcrm <elieviagbo03@gmail.com>
+Date:   Wed Apr 22 21:04:10 2026 +0000
+
+    Ajout de la fonctionnalité revenus (formulaire, suppression, etc.)
+
+[33mcommit 6bb9f1cca80d83bc6a9877bb4e010beeade2c2e7[m
+Author: Laiya <164087231+laiya-exe@users.noreply.github.com>
+Date:   Tue Apr 21 15:23:32 2026 +0000
+
+    Instructions de compilation mises à jour dans le fichier README
+    
+    Removed step to click on 'Run' in the build instructions.
+
+[33mcommit aeaf8deea541c6abb00d745d64bd764b86f50da0[m[33m ([m[1;32mmain[m[33m)[m
+Author: laiya-exe <akinlaiyaakponikpe@gmail.com>
+Date:   Tue Apr 21 15:19:36 2026 +0000
+
+    explications dans le READMe.md
+
+[33mcommit 96ef87f16655c2eec7f5aa57e8fb83c0efd1851f[m
+Author: laiya-exe <akinlaiyaakponikpe@gmail.com>
+Date:   Tue Apr 21 14:51:58 2026 +0000
+
+    initial commit
