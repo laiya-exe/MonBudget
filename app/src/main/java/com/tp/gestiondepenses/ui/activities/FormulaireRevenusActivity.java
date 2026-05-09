@@ -2,16 +2,18 @@ package com.tp.gestiondepenses.ui.activities;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
+import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.tp.gestiondepenses.R;
 import com.tp.gestiondepenses.model.Revenu;
@@ -23,97 +25,133 @@ import java.util.Locale;
 
 public class FormulaireRevenusActivity extends AppCompatActivity {
 
-    private EditText inputMontant, inputDate, inputDescription, inputSourceAutre;
-    private TextInputLayout layoutSourceAutre;
-    private Spinner spinnerSource;
-    private Button btnAjouter;
-    private RevenuViewModel revenuViewModel;
-    private Calendar calendar;
+    private EditText etAmount;
+    private AutoCompleteTextView actvSource;
+    private TextInputEditText etDate, etDescription, etOtherSource;
+    private TextInputLayout tilOtherSource;
+    private MaterialButton btnSave, btnCancel;
+    private Toolbar toolbar;
+    private RevenuViewModel viewModel;
+    private Calendar calendar = Calendar.getInstance();
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+    private int revenuId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulaire_revenus);
 
-        inputMontant = findViewById(R.id.inputMontant);
-        spinnerSource = findViewById(R.id.spinnerSource);
-        inputDate = findViewById(R.id.inputDate);
-        inputDescription = findViewById(R.id.inputDescription);
-        inputSourceAutre = findViewById(R.id.inputSourceAutre);
-        layoutSourceAutre = findViewById(R.id.layoutSourceAutre);
-        btnAjouter = findViewById(R.id.btnAjouter);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toolbar.setNavigationOnClickListener(v -> finish());
+        }
 
-        revenuViewModel = new ViewModelProvider(this).get(RevenuViewModel.class);
+        etAmount = findViewById(R.id.etAmount);
+        actvSource = findViewById(R.id.actvSource);
+        etDate = findViewById(R.id.etDate);
+        etDescription = findViewById(R.id.etDescription);
+        etOtherSource = findViewById(R.id.etOtherSource);
+        tilOtherSource = findViewById(R.id.tilOtherSource);
+        btnSave = findViewById(R.id.btnSave);
+        btnCancel = findViewById(R.id.btnCancel);
 
-        // Remplir le spinner
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this,
-                R.array.sources_revenus,
-                android.R.layout.simple_spinner_item
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerSource.setAdapter(adapter);
+        viewModel = new ViewModelProvider(this).get(RevenuViewModel.class);
 
-        // Afficher champ libre si "Autre"
-        spinnerSource.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
-                String selected = parent.getItemAtPosition(position).toString();
-                if (selected.equals("Autre")) {
-                    layoutSourceAutre.setVisibility(android.view.View.VISIBLE);
-                } else {
-                    layoutSourceAutre.setVisibility(android.view.View.GONE);
+        String[] sources = {"Salaire", "Freelance", "Commerce", "Don", "Vente", "Autre"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.list_item, sources);
+        actvSource.setAdapter(adapter);
+
+        actvSource.setOnItemClickListener((parent, view, position, id) -> {
+            String selected = (String) parent.getItemAtPosition(position);
+            if ("Autre".equals(selected)) {
+                tilOtherSource.setVisibility(View.VISIBLE);
+            } else {
+                tilOtherSource.setVisibility(View.GONE);
+            }
+        });
+
+        etDate.setOnClickListener(v -> showDatePicker());
+
+        revenuId = getIntent().getIntExtra("REVENU_ID", -1);
+        if (revenuId != -1) {
+            setupEditMode();
+        } else {
+            etDate.setText(sdf.format(calendar.getTime()));
+        }
+
+        btnSave.setOnClickListener(v -> saveRevenu());
+        btnCancel.setOnClickListener(v -> finish());
+    }
+
+    private void setupEditMode() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Modifier revenu");
+        }
+        btnSave.setText("Mettre à jour");
+        
+        viewModel.getRevenuById(revenuId).observe(this, revenu -> {
+            if (revenu != null) {
+                if (etAmount.getText().toString().isEmpty()) {
+                    etAmount.setText(String.valueOf((int)revenu.getMontant()));
+                    
+                    String source = revenu.getSource();
+                    if (source.endsWith(" (Autre)")) {
+                        actvSource.setText("Autre", false);
+                        tilOtherSource.setVisibility(View.VISIBLE);
+                        etOtherSource.setText(source.replace(" (Autre)", ""));
+                    } else {
+                        actvSource.setText(source, false);
+                        tilOtherSource.setVisibility(View.GONE);
+                    }
+                    
+                    calendar.setTimeInMillis(revenu.getDate());
+                    etDate.setText(sdf.format(calendar.getTime()));
+                    etDescription.setText(revenu.getDescription());
                 }
             }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
         });
+    }
 
-        // Date par défaut = aujourd’hui
-        calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        inputDate.setText(sdf.format(calendar.getTime()));
+    private void showDatePicker() {
+        new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+            calendar.set(year, month, dayOfMonth);
+            etDate.setText(sdf.format(calendar.getTime()));
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
 
-        // DatePicker
-        inputDate.setOnClickListener(v -> {
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
+    private void saveRevenu() {
+        String amountStr = etAmount.getText().toString().trim();
+        String source = actvSource.getText().toString().trim();
+        String description = etDescription.getText().toString().trim();
 
-            DatePickerDialog datePicker = new DatePickerDialog(
-                    FormulaireRevenusActivity.this,
-                    (view, y, m, d) -> {
-                        calendar.set(y, m, d);
-                        inputDate.setText(sdf.format(calendar.getTime()));
-                    },
-                    year, month, day
-            );
-            datePicker.show();
-        });
+        if (amountStr.isEmpty() || source.isEmpty()) {
+            Toast.makeText(this, "Veuillez remplir les champs obligatoires", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        // Bouton Ajouter
-        btnAjouter.setOnClickListener(v -> {
-            String montantStr = inputMontant.getText().toString().trim();
-            String source = spinnerSource.getSelectedItem().toString();
-            if (source.equals("Autre")) {
-                source = inputSourceAutre.getText().toString().trim();
+        if ("Autre".equals(source)) {
+            String other = etOtherSource.getText().toString().trim();
+            if (other.isEmpty()) {
+                Toast.makeText(this, "Veuillez préciser la source", Toast.LENGTH_SHORT).show();
+                return;
             }
-            String description = inputDescription.getText().toString().trim();
+            source = other + " (Autre)";
+        }
 
-            if (montantStr.isEmpty() || source.isEmpty()) {
-                if (montantStr.isEmpty()) inputMontant.setError("Montant obligatoire");
-                if (source.isEmpty()) inputSourceAutre.setError("Source obligatoire");
-            } else {
-                double montant = Double.parseDouble(montantStr);
-                long dateTimestamp = calendar.getTimeInMillis();
-                long createdAt = System.currentTimeMillis();
-
-                Revenu revenu = new Revenu(source, montant, dateTimestamp, description, createdAt);
-                revenuViewModel.insert(revenu);
-
-                Toast.makeText(this, "Revenu ajouté avec succès", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
+        double amount = Double.parseDouble(amountStr);
+        
+        if (revenuId == -1) {
+            Revenu newRevenu = new Revenu(source, amount, calendar.getTimeInMillis(), description, System.currentTimeMillis());
+            viewModel.insert(newRevenu);
+            Toast.makeText(this, "Revenu ajouté", Toast.LENGTH_SHORT).show();
+        } else {
+            Revenu updatedRevenu = new Revenu(source, amount, calendar.getTimeInMillis(), description, System.currentTimeMillis());
+            updatedRevenu.setId(revenuId);
+            viewModel.update(updatedRevenu);
+            Toast.makeText(this, "Revenu mis à jour", Toast.LENGTH_SHORT).show();
+        }
+        finish();
     }
 }

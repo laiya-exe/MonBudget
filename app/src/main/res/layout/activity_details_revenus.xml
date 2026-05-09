@@ -40,14 +40,14 @@
                     android:id="@+id/txtResume"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Résumé des revenus par source"
+                    android:text="Revenu le plus rentable"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="@color/purple_500"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- RecyclerView -->
+        <!-- Liste des revenus -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerDetailsRevenus"
             android:layout_width="match_parent"

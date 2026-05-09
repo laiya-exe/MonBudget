@@ -1,16 +1,22 @@
 package com.tp.gestiondepenses.ui.activities;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
+import android.view.animation.LinearInterpolator;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.tp.gestiondepenses.R;
 
+import java.util.Locale;
+
 public class SplashActivity extends AppCompatActivity {
 
-    // Durée du splash screen en millisecondes (2 secondes)
+    private TextView tvProgressPercent;
     private static final long SPLASH_DURATION = 2000;
 
     @Override
@@ -18,18 +24,27 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        // Utilisation d'un Handler pour retarder le lancement de MainActivity
-        new Handler().postDelayed(new Runnable() {
+        tvProgressPercent = findViewById(R.id.tvProgressPercent);
+
+        // Animation du pourcentage de 0 à 100% sur 2 secondes
+        ValueAnimator animator = ValueAnimator.ofInt(0, 100);
+        animator.setDuration(SPLASH_DURATION);
+        animator.setInterpolator(new LinearInterpolator());
+        animator.addUpdateListener(animation -> {
+            int progress = (int) animation.getAnimatedValue();
+            tvProgressPercent.setText(String.format(Locale.getDefault(), "%d%%", progress));
+        });
+
+        animator.addListener(new AnimatorListenerAdapter() {
             @Override
-            public void run() {
-                // Redirection vers l'écran principal
+            public void onAnimationEnd(Animator animation) {
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 startActivity(intent);
-                // Fermer le splash ScreenActivity pour que l'utilisateur ne puisse pas y revenir
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
-                overridePendingTransition(0, 0); // Évite une double animation
             }
-        }, SPLASH_DURATION);
+        });
+
+        animator.start();
     }
 }

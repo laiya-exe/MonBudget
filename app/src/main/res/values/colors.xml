@@ -2,8 +2,20 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <!-- Nouvelle couleur violet -->
+
+    <!-- Couleurs Revenus -->
+    <color name="bg_light">#F7F8FA</color> <!-- Fond gris très clair -->
+    <color name="primary_blue">#1A45A0</color> <!-- Bleu titres/boutons -->
+    <color name="primary_teal">#00695C</color> <!-- Vert foncé (boutons/Mois) -->
+    <color name="accent_green">#00C853</color> <!-- Vert vif (montants) -->
+    <color name="card_white">#FFFFFF</color>
+    <color name="text_gray">#757575</color>
+    <color name="text_secondary">#757575</color>
+    <color name="darker_gray">#555555</color>
+
+    <color name="teal_200">#03DAC5</color>
+    <color name="teal_700">#018786</color>
+    <color name="purple_200">#BB86FC</color>
     <color name="purple_500">#6200EE</color>
     <color name="purple_700">#3700B3</color>
-    <color name="teal_200">#03DAC5</color>
 </resources>

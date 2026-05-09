@@ -1,68 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/containerRevenus"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@android:color/white">
 
-    <!-- Formulaire d'ajout -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="32dp">
-
-        <!-- Montant obligatoire -->
-        <EditText
-            android:id="@+id/edtMontant"
-            android:hint="Montant (FCFA)"
-            android:inputType="numberDecimal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- Source obligatoire (liste déroulante) -->
-        <Spinner
-            android:id="@+id/spinnerSource"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- Champ texte affiché seulement si 'Autre' est choisi -->
-        <EditText
-            android:id="@+id/edtSourceAutre"
-            android:hint="Précisez la source"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
-
-        <!-- Date obligatoire (sélection via calendrier) -->
-        <EditText
-            android:id="@+id/edtDate"
-            android:hint="Date"
-            android:focusable="false"
-            android:clickable="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- Description optionnelle -->
-        <EditText
-            android:id="@+id/edtDescription"
-            android:hint="Description (optionnelle)"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- Bouton d’ajout -->
-        <Button
-            android:id="@+id/btnAjouter"
-            android:text="Ajouter revenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"/>
-    </LinearLayout>
-
-    <!-- Liste des revenus -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerRevenus"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp"/>
-</LinearLayout>
+    <!-- Le fragment Revenus sera injecté ici par RevenusActivity -->
+</FrameLayout>
