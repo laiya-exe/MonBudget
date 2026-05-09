@@ -1,18 +1,16 @@
-package com.tp.gestionrevenus.ui.activities;
+package com.tp.gestiondepenses.ui.activities;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.ArrayAdapter;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.tp.gestiondepenses.R;
 import com.tp.gestiondepenses.model.Revenu;
 import com.tp.gestiondepenses.viewmodel.RevenuViewModel;
@@ -23,10 +21,8 @@ import java.util.Locale;
 
 public class FormulaireRevenusActivity extends AppCompatActivity {
 
-    private EditText inputMontant, inputDate, inputDescription, inputSourceAutre;
-    private TextInputLayout layoutSourceAutre;
-    private Spinner spinnerSource;
-    private Button btnAjouter;
+    private EditText etMontant, etDate, etDescription;
+    private Spinner spinnerCategorie;
     private RevenuViewModel revenuViewModel;
     private Calendar calendar;
 
@@ -35,74 +31,39 @@ public class FormulaireRevenusActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulaire_revenus);
 
-        inputMontant = findViewById(R.id.inputMontant);
-        spinnerSource = findViewById(R.id.spinnerSource);
-        inputDate = findViewById(R.id.inputDate);
-        inputDescription = findViewById(R.id.inputDescription);
-        inputSourceAutre = findViewById(R.id.inputSourceAutre);
-        layoutSourceAutre = findViewById(R.id.layoutSourceAutre);
-        btnAjouter = findViewById(R.id.btnAjouter);
+        etMontant = findViewById(R.id.etMontant);
+        spinnerCategorie = findViewById(R.id.spinnerCategorie);
+        etDate = findViewById(R.id.etDate);
+        etDescription = findViewById(R.id.etDescription);
 
         revenuViewModel = new ViewModelProvider(this).get(RevenuViewModel.class);
 
-        // Remplir le spinner
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this,
-                R.array.sources_revenus,
-                android.R.layout.simple_spinner_item
-        );
+        // Mock data for spinner
+        String[] sources = {"Salaire", "Freelance", "Cadeau", "Vente", "Autre"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, sources);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerSource.setAdapter(adapter);
-
-        // Afficher champ libre si "Autre"
-        spinnerSource.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
-                String selected = parent.getItemAtPosition(position).toString();
-                if (selected.equals("Autre")) {
-                    layoutSourceAutre.setVisibility(android.view.View.VISIBLE);
-                } else {
-                    layoutSourceAutre.setVisibility(android.view.View.GONE);
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
+        spinnerCategorie.setAdapter(adapter);
 
         // Date par défaut = aujourd’hui
         calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        inputDate.setText(sdf.format(calendar.getTime()));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+        etDate.setText(sdf.format(calendar.getTime()));
 
         // DatePicker
-        inputDate.setOnClickListener(v -> {
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-            DatePickerDialog datePicker = new DatePickerDialog(
-                    FormulaireRevenusActivity.this,
-                    (view, y, m, d) -> {
-                        calendar.set(y, m, d);
-                        inputDate.setText(sdf.format(calendar.getTime()));
-                    },
-                    year, month, day
-            );
-            datePicker.show();
+        etDate.setOnClickListener(v -> {
+            new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+                calendar.set(year, month, dayOfMonth);
+                etDate.setText(sdf.format(calendar.getTime()));
+            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
         });
 
-        // Bouton Ajouter
-        btnAjouter.setOnClickListener(v -> {
-            String montantStr = inputMontant.getText().toString().trim();
-            String source = spinnerSource.getSelectedItem().toString();
-            if (source.equals("Autre")) {
-                source = inputSourceAutre.getText().toString().trim();
-            }
-            String description = inputDescription.getText().toString().trim();
+        findViewById(R.id.btnEnregistrerRevenu).setOnClickListener(v -> {
+            String montantStr = etMontant.getText().toString().trim();
+            String source = spinnerCategorie.getSelectedItem().toString();
+            String description = etDescription.getText().toString().trim();
 
-            if (montantStr.isEmpty() || source.isEmpty()) {
-                if (montantStr.isEmpty()) inputMontant.setError("Montant obligatoire");
-                if (source.isEmpty()) inputSourceAutre.setError("Source obligatoire");
+            if (montantStr.isEmpty()) {
+                etMontant.setError("Montant obligatoire");
             } else {
                 double montant = Double.parseDouble(montantStr);
                 long dateTimestamp = calendar.getTimeInMillis();
@@ -115,5 +76,10 @@ public class FormulaireRevenusActivity extends AppCompatActivity {
                 finish();
             }
         });
+        
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            toolbar.setNavigationOnClickListener(v -> finish());
+        }
     }
 }

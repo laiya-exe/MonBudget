@@ -1,68 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:fitsSystemWindows="true">
 
-    <!-- Formulaire d'ajout -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primary_blue"
+        app:navigationIcon="@drawable/ic_back"
+        app:navigationIconTint="@color/white"
+        app:title="Revenus"
+        app:titleTextColor="@color/white" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="32dp">
+        android:padding="16dp">
 
-        <!-- Montant obligatoire -->
-        <EditText
-            android:id="@+id/edtMontant"
-            android:hint="Montant (FCFA)"
-            android:inputType="numberDecimal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- Source obligatoire (liste déroulante) -->
-        <Spinner
-            android:id="@+id/spinnerSource"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- Champ texte affiché seulement si 'Autre' est choisi -->
-        <EditText
-            android:id="@+id/edtSourceAutre"
-            android:hint="Précisez la source"
+        <!-- Formulaire d'ajout -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"/>
+            android:orientation="vertical">
 
-        <!-- Date obligatoire (sélection via calendrier) -->
-        <EditText
-            android:id="@+id/edtDate"
-            android:hint="Date"
-            android:focusable="false"
-            android:clickable="true"
+            <!-- Montant obligatoire -->
+            <EditText
+                android:id="@+id/edtMontant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Montant (FCFA)"
+                android:inputType="numberDecimal" />
+
+            <!-- Source obligatoire (liste déroulante) -->
+            <Spinner
+                android:id="@+id/spinnerSource"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- Champ texte affiché seulement si 'Autre' est choisi -->
+            <EditText
+                android:id="@+id/edtSourceAutre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Précisez la source"
+                android:visibility="gone" />
+
+            <!-- Date obligatoire (sélection via calendrier) -->
+            <EditText
+                android:id="@+id/edtDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="Date" />
+
+            <!-- Description optionnelle -->
+            <EditText
+                android:id="@+id/edtDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description (optionnelle)" />
+
+            <!-- Bouton d’ajout -->
+            <Button
+                android:id="@+id/btnAjouter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Ajouter revenu" />
+        </LinearLayout>
+
+        <!-- Liste des revenus -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerRevenus"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- Description optionnelle -->
-        <EditText
-            android:id="@+id/edtDescription"
-            android:hint="Description (optionnelle)"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- Bouton d’ajout -->
-        <Button
-            android:id="@+id/btnAjouter"
-            android:text="Ajouter revenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"/>
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp" />
     </LinearLayout>
-
-    <!-- Liste des revenus -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerRevenus"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp"/>
 </LinearLayout>

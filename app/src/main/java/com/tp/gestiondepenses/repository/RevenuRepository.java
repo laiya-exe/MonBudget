@@ -33,6 +33,10 @@ public class RevenuRepository {
         return allRevenus;
     }
 
+    public LiveData<Revenu> getRevenuById(int id) {
+        return revenuDao.getRevenuById(id);
+    }
+
     public void deleteById(int id) {
         Executors.newSingleThreadExecutor().execute(() -> revenuDao.deleteById(id));
     }

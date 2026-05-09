@@ -30,6 +30,14 @@ public interface RevenuDao {
     LiveData<List<Revenu>> getAllRevenus();
 
     /**
+     * Récupère un revenu par son id.
+     * @param id identifiant
+     * @return revenu observable
+     */
+    @Query("SELECT * FROM revenus WHERE id = :id")
+    LiveData<Revenu> getRevenuById(int id);
+
+    /**
      * Supprime un revenu par son id.
      * @param id identifiant du revenu
      */

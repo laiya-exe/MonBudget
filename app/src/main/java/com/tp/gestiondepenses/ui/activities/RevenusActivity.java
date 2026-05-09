@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.tp.gestiondepenses.R;
@@ -44,6 +45,11 @@ public class RevenusActivity extends AppCompatActivity {
         edtDate = findViewById(R.id.edtDate);
         spinnerSource = findViewById(R.id.spinnerSource);
         btnAjouter = findViewById(R.id.btnAjouter);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            toolbar.setNavigationOnClickListener(v -> finish());
+        }
 
         revenuViewModel = new ViewModelProvider(this).get(RevenuViewModel.class);
 

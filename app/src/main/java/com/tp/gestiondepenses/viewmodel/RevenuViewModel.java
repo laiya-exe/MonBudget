@@ -37,6 +37,10 @@ public class RevenuViewModel extends AndroidViewModel {
         return allRevenus;
     }
 
+    public LiveData<Revenu> getRevenuById(int id) {
+        return repository.getRevenuById(id);
+    }
+
     public LiveData<Double> getTotalRevenusParMois(long start, long end) {
         return repository.getTotalRevenusParMois(start, end);
     }

@@ -21,7 +21,7 @@ import com.tp.gestiondepenses.R;
 import com.tp.gestiondepenses.adapter.RevenuAdapter;
 import com.tp.gestiondepenses.model.Revenu;
 import com.tp.gestiondepenses.ui.activities.DetailsRevenusActivity;
-//import com.tp.gestiondepenses.ui.activities.FormulaireRevenusActivity;
+import com.tp.gestiondepenses.ui.activities.FormulaireRevenusActivity;
 import com.tp.gestiondepenses.viewmodel.RevenuViewModel;
 
 import java.text.SimpleDateFormat;

@@ -2,8 +2,36 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <!-- Nouvelle couleur violet -->
-    <color name="purple_500">#6200EE</color>
-    <color name="purple_700">#3700B3</color>
-    <color name="teal_200">#03DAC5</color>
+
+    <!-- New Design Palette -->
+    <color name="primary_blue">#1C35C9</color>
+    <color name="bg_light_gray">#F0F2F7</color>
+    <color name="text_black_dark">#212121</color>
+    <color name="text_gray_medium">#616161</color>
+    <color name="text_gray_light">#9E9E9E</color>
+    <color name="text_gray_very_light">#BDBDBD</color>
+    <color name="border_gray_light">#E0E0E0</color>
+    <color name="divider_gray">#F0F0F0</color>
+    <color name="red_amount">#E53935</color>
+    <color name="red_error">#E53935</color>
+    <color name="green_accent">#00897B</color>
+    <color name="green_light_bg">#E8F5E9</color>
+    <color name="orange_budget">#F57C00</color>
+    <color name="blue_active_bg">#E8EAF6</color>
+    <color name="violet_custom">#6A1B9A</color>
+    <color name="rose_delete_bg">#FFEBEE</color>
+
+    <!-- Legacy compatibility -->
+    <color name="purple_primary">#1C35C9</color>
+    <color name="purple_dark">#15299E</color>
+    <color name="teal_secondary">#00897B</color>
+    <color name="green_success">#4CAF50</color>
+    <color name="amber_warning">#FF9800</color>
+    <color name="red_critical">#E53935</color>
+    <color name="gray_neutral">#F0F2F7</color>
+    <color name="gray_text">#616161</color>
+    <color name="black_text">#212121</color>
+    <color name="purple_500">#1C35C9</color>
+    <color name="purple_700">#15299E</color>
+    <color name="teal_200">#00897B</color>
 </resources>

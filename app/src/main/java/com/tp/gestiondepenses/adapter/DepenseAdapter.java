@@ -1,33 +1,48 @@
 package com.tp.gestiondepenses.adapter;
 
-import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.tp.gestiondepenses.R;
+import com.tp.gestiondepenses.model.Categorie;
 import com.tp.gestiondepenses.model.Depense;
+import com.tp.gestiondepenses.repository.CategorieRepository;
+import com.tp.gestiondepenses.ui.activities.DetailDepenseActivity;
 import com.tp.gestiondepenses.viewmodel.DepenseViewModel;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class DepenseAdapter extends RecyclerView.Adapter<DepenseAdapter.DepenseViewHolder> {
 
     private List<Depense> depenses;
-    private DepenseViewModel depenseViewModel;
+    private final DepenseViewModel depenseViewModel;
+    private final CategorieRepository catRepo;
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final NumberFormat nf = NumberFormat.getInstance(Locale.FRANCE);
 
     public DepenseAdapter(List<Depense> depenses, DepenseViewModel depenseViewModel) {
         this.depenses = depenses;
         this.depenseViewModel = depenseViewModel;
+        this.catRepo = new CategorieRepository(depenseViewModel.getApplication());
+    }
+
+    public void setDepenses(List<Depense> depenses) {
+        this.depenses = depenses;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -42,44 +57,61 @@ public class DepenseAdapter extends RecyclerView.Adapter<DepenseAdapter.DepenseV
     public void onBindViewHolder(@NonNull DepenseViewHolder holder, int position) {
         Depense depense = depenses.get(position);
 
-        holder.txtCategorie.setText(depense.getCategorie());
-        holder.txtMontant.setText(depense.getMontant() + " FCFA");
-        holder.txtDescription.setText(depense.getDescription());
+        holder.tvMontant.setText(nf.format(depense.getMontant()) + " FCFA");
+        holder.tvDescription.setText(depense.getDescription());
 
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(depense.getDate());
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        holder.txtDate.setText("Ajouté le : " + sdf.format(cal.getTime()));
+        executor.execute(() -> {
+            Categorie cat = catRepo.getCategorieByIdSync(depense.getCategorieId());
+            if (cat != null) {
+                holder.itemView.post(() -> {
+                    holder.tvCategorie.setText(cat.getNom());
+                    try {
+                        int color = Color.parseColor(cat.getCouleur());
+                        // Light background for icon circle
+                        holder.cardIcon.setCardBackgroundColor(ColorStateList.valueOf(color).withAlpha(30));
+                        holder.ivCategoryIcon.setImageTintList(ColorStateList.valueOf(color));
+                        
+                        int iconResId = holder.itemView.getContext().getResources().getIdentifier(
+                                cat.getIcone(), "drawable", holder.itemView.getContext().getPackageName());
+                        if (iconResId != 0) {
+                            holder.ivCategoryIcon.setImageResource(iconResId);
+                        } else {
+                            holder.ivCategoryIcon.setImageResource(R.drawable.ic_category);
+                        }
+                    } catch (Exception ignored) {
+                        holder.cardIcon.setCardBackgroundColor(ColorStateList.valueOf(Color.LTGRAY));
+                    }
+                });
+            }
+        });
 
-        // Suppression avec confirmation
-        holder.itemView.setOnLongClickListener(v -> {
-            new AlertDialog.Builder(v.getContext())
-                    .setTitle("Supprimer dépense")
-                    .setMessage("Êtes-vous sûr de vouloir supprimer cette dépense ?")
-                    .setPositiveButton("Oui", (dialog, which) -> {
-                        depenseViewModel.deleteById(depense.getId());
-                        Toast.makeText(v.getContext(), "Dépense supprimée", Toast.LENGTH_SHORT).show();
-                    })
-                    .setNegativeButton("Non", null)
-                    .show();
-            return true;
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), DetailDepenseActivity.class);
+            intent.putExtra("DEPENSE_ID", depense.getId());
+            v.getContext().startActivity(intent);
         });
     }
 
     @Override
     public int getItemCount() {
-        return depenses.size();
+        return depenses != null ? depenses.size() : 0;
     }
 
     public static class DepenseViewHolder extends RecyclerView.ViewHolder {
-        TextView txtCategorie, txtMontant, txtDescription, txtDate;
+        TextView tvCategorie, tvMontant, tvDescription;
+        ImageView ivCategoryIcon;
+        MaterialCardView cardIcon;
 
         public DepenseViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtCategorie = itemView.findViewById(R.id.txtCategorie);
-            txtMontant = itemView.findViewById(R.id.txtMontant);
-            txtDescription = itemView.findViewById(R.id.txtDescription);
-            txtDate = itemView.findViewById(R.id.txtDate);
+            tvCategorie = itemView.findViewById(R.id.tvCategorie);
+            tvMontant = itemView.findViewById(R.id.tvMontant);
+            tvDescription = itemView.findViewById(R.id.tvDescription);
+            ivCategoryIcon = itemView.findViewById(R.id.ivCategoryIcon);
+            cardIcon = itemView.findViewById(R.id.cardIcon);
+            // On cache la date dans l'item pour correspondre à l'image (qui utilise des headers)
+            View dateView = itemView.findViewById(R.id.tvDate);
+            if (dateView != null) dateView.setVisibility(View.GONE);
         }
     }
 }

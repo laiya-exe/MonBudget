@@ -1,65 +1,67 @@
 package com.tp.gestiondepenses.ui.activities;
 
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.tp.gestiondepenses.R;
 import com.tp.gestiondepenses.model.Revenu;
 import com.tp.gestiondepenses.viewmodel.RevenuViewModel;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Locale;
 
 public class DetailsRevenusActivity extends AppCompatActivity {
 
     private RevenuViewModel revenuViewModel;
-    private TextView txtResume;
-    private Button btnRetour;
+    private TextView tvMontant, tvCategorie, tvDate, tvDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_revenus);
 
-        txtResume = findViewById(R.id.txtResume);
-        btnRetour = findViewById(R.id.btnRetour);
-
+        initViews();
         revenuViewModel = new ViewModelProvider(this).get(RevenuViewModel.class);
 
-        // Observer les revenus et afficher le plus rentable
-        revenuViewModel.getAllRevenus().observe(this, revenus -> {
-            if (revenus != null && !revenus.isEmpty()) {
-                Revenu maxRevenu = revenus.get(0);
-                for (Revenu r : revenus) {
-                    if (r.getMontant() > maxRevenu.getMontant()) {
-                        maxRevenu = r;
-                    }
+        int revenuId = getIntent().getIntExtra("REVENU_ID", -1);
+        if (revenuId != -1) {
+            revenuViewModel.getRevenuById(revenuId).observe(this, revenu -> {
+                if (revenu != null) {
+                    displayRevenu(revenu);
                 }
+            });
+        }
+    }
 
-                // Format mois + année
-                Calendar cal = Calendar.getInstance();
-                cal.setTimeInMillis(maxRevenu.getDate());
-                SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
-                String moisAnnee = sdf.format(cal.getTime());
+    private void initViews() {
+        tvMontant = findViewById(R.id.tvMontantDetail);
+        tvCategorie = findViewById(R.id.tvCategorieDetail);
+        tvDate = findViewById(R.id.tvDateDetail);
+        tvDescription = findViewById(R.id.tvDescriptionDetail);
 
-                // Texte stylisé
-                String resumeText = "Revenu le plus rentable :\n"
-                        + maxRevenu.getSource() + " : "
-                        + maxRevenu.getMontant() + " FCFA\n"
-                        + "Période : " + moisAnnee;
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            toolbar.setNavigationOnClickListener(v -> finish());
+        }
 
-                txtResume.setText(resumeText);
-            } else {
-                txtResume.setText("Aucun revenu enregistré.");
-            }
+        findViewById(R.id.btnModifierRevenu).setOnClickListener(v -> {
+            // Action modifier
         });
+        findViewById(R.id.btnSupprimerRevenu).setOnClickListener(v -> {
+            // Action supprimer
+        });
+    }
 
-        // Bouton retour
-        btnRetour.setOnClickListener(v -> finish());
+    private void displayRevenu(Revenu revenu) {
+        tvMontant.setText(String.format(Locale.FRANCE, "%.0f FCFA", revenu.getMontant()));
+        tvCategorie.setText(revenu.getSource());
+        tvDescription.setText(revenu.getDescription());
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+        tvDate.setText(sdf.format(revenu.getDate()));
     }
 }
