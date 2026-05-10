@@ -62,7 +62,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             DepenseViewHolder h = (DepenseViewHolder) holder;
             h.tvDescription.setText(t.getDescription());
             h.tvMontant.setText(String.format(Locale.FRANCE, "-%,.0f FCFA", t.getMontant()));
-            h.tvCategorie.setText(t.getCategoryName());
+            h.tvDate.setText(DateUtils.formatDate(t.getDate()));
             
             if (iconResId != 0) {
                 h.ivIcon.setImageResource(iconResId);
@@ -90,14 +90,14 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     static class DepenseViewHolder extends RecyclerView.ViewHolder {
-        TextView tvDescription, tvMontant, tvCategorie;
+        TextView tvDescription, tvMontant, tvDate;
         ImageView ivIcon;
         
         DepenseViewHolder(View itemView) {
             super(itemView);
             tvDescription = itemView.findViewById(R.id.tvDescription);
             tvMontant = itemView.findViewById(R.id.tvMontant);
-            tvCategorie = itemView.findViewById(R.id.tvCategorie);
+            tvDate = itemView.findViewById(R.id.tvDate);
             ivIcon = itemView.findViewById(R.id.ivCategoryIcon);
         }
     }

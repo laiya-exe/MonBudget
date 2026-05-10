@@ -21,6 +21,7 @@ import com.tp.gestiondepenses.ui.activities.DetailDepenseActivity;
 import com.tp.gestiondepenses.viewmodel.DepenseViewModel;
 
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
@@ -33,6 +34,7 @@ public class DepenseAdapter extends RecyclerView.Adapter<DepenseAdapter.DepenseV
     private final CategorieRepository catRepo;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private final NumberFormat nf = NumberFormat.getInstance(Locale.FRANCE);
+    private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
 
     public DepenseAdapter(List<Depense> depenses, DepenseViewModel depenseViewModel) {
         this.depenses = depenses;
@@ -59,12 +61,12 @@ public class DepenseAdapter extends RecyclerView.Adapter<DepenseAdapter.DepenseV
 
         holder.tvMontant.setText(nf.format(depense.getMontant()) + " FCFA");
         holder.tvDescription.setText(depense.getDescription());
+        holder.tvDate.setText(sdf.format(depense.getDate()));
 
         executor.execute(() -> {
             Categorie cat = catRepo.getCategorieByIdSync(depense.getCategorieId());
             if (cat != null) {
                 holder.itemView.post(() -> {
-                    holder.tvCategorie.setText(cat.getNom());
                     try {
                         int color = Color.parseColor(cat.getCouleur());
                         // Light background for icon circle
@@ -98,20 +100,17 @@ public class DepenseAdapter extends RecyclerView.Adapter<DepenseAdapter.DepenseV
     }
 
     public static class DepenseViewHolder extends RecyclerView.ViewHolder {
-        TextView tvCategorie, tvMontant, tvDescription;
+        TextView tvDate, tvMontant, tvDescription;
         ImageView ivCategoryIcon;
         MaterialCardView cardIcon;
 
         public DepenseViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvCategorie = itemView.findViewById(R.id.tvCategorie);
+            tvDate = itemView.findViewById(R.id.tvDate);
             tvMontant = itemView.findViewById(R.id.tvMontant);
             tvDescription = itemView.findViewById(R.id.tvDescription);
             ivCategoryIcon = itemView.findViewById(R.id.ivCategoryIcon);
             cardIcon = itemView.findViewById(R.id.cardIcon);
-            // On cache la date dans l'item pour correspondre à l'image (qui utilise des headers)
-            View dateView = itemView.findViewById(R.id.tvDate);
-            if (dateView != null) dateView.setVisibility(View.GONE);
         }
     }
 }

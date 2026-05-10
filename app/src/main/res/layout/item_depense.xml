@@ -57,11 +57,11 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvCategorie"
+                android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:text="Alimentation"
+                android:text="12/05/2023"
                 android:textColor="@color/text_gray_medium"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -75,13 +75,6 @@
             android:textColor="@color/red_amount"
             android:textSize="16sp"
             android:textStyle="bold" />
-
-        <!-- Hidden but kept for ViewModel/Adapter compatibility if needed -->
-        <TextView
-            android:id="@+id/tvDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
