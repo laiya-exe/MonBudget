@@ -6,6 +6,8 @@ import com.tp.gestiondepenses.database.AppDatabase;
 import com.tp.gestiondepenses.database.DepenseDao;
 import com.tp.gestiondepenses.model.CategoryTotal;
 import com.tp.gestiondepenses.model.Depense;
+import com.tp.gestiondepenses.model.DepenseTransaction;
+
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -42,7 +44,7 @@ public class DepenseRepository {
         return dao.getTotalsByCategory(mois, annee);
     }
 
-    public LiveData<List<Depense>> getLatestDepenses(int limit) {
+    public LiveData<List<DepenseTransaction>> getLatestDepenses(int limit) {
         return dao.getLatestDepenses(limit);
     }
 

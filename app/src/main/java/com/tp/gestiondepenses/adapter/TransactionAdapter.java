@@ -1,5 +1,6 @@
 package com.tp.gestiondepenses.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.tp.gestiondepenses.model.Transaction;
 import com.tp.gestiondepenses.utils.DateUtils;
 
 import java.util.List;
+import java.util.Locale;
 
 public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Transaction> transactions;
@@ -51,17 +53,34 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Transaction t = transactions.get(position);
+        Context context = holder.itemView.getContext();
+        
+        int iconResId = context.getResources().getIdentifier(
+                t.getIconName(), "drawable", context.getPackageName());
+
         if (holder instanceof DepenseViewHolder) {
             DepenseViewHolder h = (DepenseViewHolder) holder;
             h.tvDescription.setText(t.getDescription());
-            h.tvMontant.setText(String.format("-%.0f FCFA", t.getMontant()));
-            // On pourrait afficher la catégorie si on l'avait dans l'objet Transaction
-            // Pour l'instant on met un texte par défaut ou on essaie de caster
+            h.tvMontant.setText(String.format(Locale.FRANCE, "-%,.0f FCFA", t.getMontant()));
+            h.tvCategorie.setText(t.getCategoryName());
+            
+            if (iconResId != 0) {
+                h.ivIcon.setImageResource(iconResId);
+            } else {
+                h.ivIcon.setImageResource(R.drawable.ic_category); // Icône par défaut
+            }
+            
         } else if (holder instanceof RevenuViewHolder) {
             RevenuViewHolder h = (RevenuViewHolder) holder;
-            h.tvSource.setText(t.getDescription());
-            h.tvAmount.setText(String.format("+%.0f FCFA", t.getMontant()));
-            // h.tvDate.setText(DateUtils.formatDate(t.getDate()));
+            h.tvSource.setText(t.getCategoryName());
+            h.tvAmount.setText(String.format(Locale.FRANCE, "+%,.0f FCFA", t.getMontant()));
+            h.tvDate.setText(DateUtils.formatDate(t.getDate()));
+            
+            if (iconResId != 0) {
+                h.ivIcon.setImageResource(iconResId);
+            } else {
+                h.ivIcon.setImageResource(R.drawable.ic_trending_up); // Icône par défaut revenus
+            }
         }
     }
 
@@ -72,21 +91,27 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     static class DepenseViewHolder extends RecyclerView.ViewHolder {
         TextView tvDescription, tvMontant, tvCategorie;
+        ImageView ivIcon;
+        
         DepenseViewHolder(View itemView) {
             super(itemView);
             tvDescription = itemView.findViewById(R.id.tvDescription);
             tvMontant = itemView.findViewById(R.id.tvMontant);
             tvCategorie = itemView.findViewById(R.id.tvCategorie);
+            ivIcon = itemView.findViewById(R.id.ivCategoryIcon);
         }
     }
 
     static class RevenuViewHolder extends RecyclerView.ViewHolder {
         TextView tvSource, tvAmount, tvDate;
+        ImageView ivIcon;
+        
         RevenuViewHolder(View itemView) {
             super(itemView);
             tvSource = itemView.findViewById(R.id.tvSource);
             tvAmount = itemView.findViewById(R.id.tvAmount);
             tvDate = itemView.findViewById(R.id.tvDate);
+            ivIcon = itemView.findViewById(R.id.ivIcon);
         }
     }
 }

@@ -31,7 +31,7 @@ public class Depense implements Transaction {
     private int categorieId;
 
     @ColumnInfo(name = "rubrique_id")
-    private Integer rubriqueId; // Nullable
+    private Integer rubriqueId;
 
     private double montant;
     private long date;
@@ -60,28 +60,28 @@ public class Depense implements Transaction {
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
-
     public int getCategorieId() { return categorieId; }
     public void setCategorieId(int categorieId) { this.categorieId = categorieId; }
-
     public Integer getRubriqueId() { return rubriqueId; }
     public void setRubriqueId(Integer rubriqueId) { this.rubriqueId = rubriqueId; }
 
-    public double getMontant() { return montant; }
+    @Override public double getMontant() { return montant; }
     public void setMontant(double montant) { this.montant = montant; }
-
-    public long getDate() { return date; }
+    @Override public long getDate() { return date; }
     public void setDate(long date) { this.date = date; }
-
-    public String getDescription() { return description; }
+    @Override public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
     public String getMoyenPaiement() { return moyenPaiement; }
     public void setMoyenPaiement(String moyenPaiement) { this.moyenPaiement = moyenPaiement; }
-
     public long getCreatedAt() { return createdAt; }
     public void setCreatedAt(long createdAt) { this.createdAt = createdAt; }
 
+    @Override public String getType() { return "DEPENSE"; }
+
     @Override
-    public String getType() { return "DEPENSE"; }
+    public String getIconName() { return "ic_category"; }
+
+    @Override
+    public String getCategoryName() { return "Dépense"; }
 }

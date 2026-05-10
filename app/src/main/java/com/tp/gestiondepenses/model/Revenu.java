@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "revenus")
-public class Revenu implements Transaction{
+public class Revenu implements Transaction {
 
     @PrimaryKey(autoGenerate = true)
     public int id;
@@ -50,6 +50,7 @@ public class Revenu implements Transaction{
         this.source = source;
     }
 
+    @Override
     public double getMontant() {
         return montant;
     }
@@ -58,6 +59,7 @@ public class Revenu implements Transaction{
         this.montant = montant;
     }
 
+    @Override
     public long getDate() {
         return date;
     }
@@ -66,6 +68,7 @@ public class Revenu implements Transaction{
         this.date = date;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -84,4 +87,14 @@ public class Revenu implements Transaction{
 
     @Override
     public String getType() { return "REVENU"; }
+
+    @Override
+    public String getIconName() {
+        return "ic_trending_up"; // Icône par défaut pour les revenus
+    }
+
+    @Override
+    public String getCategoryName() {
+        return source != null ? source : "Revenu";
+    }
 }

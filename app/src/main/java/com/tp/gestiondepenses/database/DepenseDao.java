@@ -9,6 +9,7 @@ import androidx.room.Update;
 
 import com.tp.gestiondepenses.model.CategoryTotal;
 import com.tp.gestiondepenses.model.Depense;
+import com.tp.gestiondepenses.model.DepenseTransaction;
 
 import java.util.List;
 
@@ -48,8 +49,10 @@ public interface DepenseDao {
            "AND strftime('%Y', date / 1000, 'unixepoch') = CAST(:annee AS TEXT) GROUP BY categorie_id")
     LiveData<List<CategoryTotal>> getTotalsByCategory(int mois, int annee);
 
-    @Query("SELECT * FROM depenses ORDER BY date DESC LIMIT :limit")
-    LiveData<List<Depense>> getLatestDepenses(int limit);
+    @Query("SELECT d.*, c.nom as categoryName, c.icone as categoryIcon FROM depenses d " +
+           "LEFT JOIN categories c ON d.categorie_id = c.id " +
+           "ORDER BY d.date DESC LIMIT :limit")
+    LiveData<List<DepenseTransaction>> getLatestDepenses(int limit);
 
     @Query("SELECT * FROM depenses WHERE id = :id")
     LiveData<Depense> getDepenseById(int id);

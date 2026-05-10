@@ -11,6 +11,7 @@ import androidx.lifecycle.Transformations;
 
 import com.tp.gestiondepenses.model.BudgetAvecProgression;
 import com.tp.gestiondepenses.model.Depense;
+import com.tp.gestiondepenses.model.DepenseTransaction;
 import com.tp.gestiondepenses.model.Revenu;
 import com.tp.gestiondepenses.model.Transaction;
 import com.tp.gestiondepenses.repository.BudgetRepository;
@@ -54,7 +55,7 @@ public class DashboardViewModel extends AndroidViewModel {
             updateSolde();
         });
 
-        LiveData<List<Depense>> lastDep = depenseRepo.getLatestDepenses(5);
+        LiveData<List<DepenseTransaction>> lastDep = depenseRepo.getLatestDepenses(5);
         LiveData<List<Revenu>> lastRev = revenuRepo.getLatestRevenus(5);
 
         dernieresTransactions.addSource(lastDep, depenses -> {
@@ -69,7 +70,6 @@ public class DashboardViewModel extends AndroidViewModel {
             List<BudgetAvecProgression> alerts = new ArrayList<>();
             if (budgets != null) {
                 for (BudgetAvecProgression b : budgets) {
-                    // Utilisation des champs publics de BudgetAvecProgression (pourcentage et estDepasse)
                     if (b.pourcentage >= 90 || b.estDepasse) {
                         alerts.add(b);
                     }
@@ -85,7 +85,7 @@ public class DashboardViewModel extends AndroidViewModel {
         solde.setValue((rev != null ? rev : 0.0) - (dep != null ? dep : 0.0));
     }
 
-    private void updateTransactions(List<Depense> depenses, List<Revenu> revenus) {
+    private void updateTransactions(List<? extends Transaction> depenses, List<Revenu> revenus) {
         List<Transaction> all = new ArrayList<>();
         if (depenses != null) all.addAll(depenses);
         if (revenus != null) all.addAll(revenus);
