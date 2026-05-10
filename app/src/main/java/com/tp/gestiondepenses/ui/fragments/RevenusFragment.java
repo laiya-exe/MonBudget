@@ -1,110 +1,135 @@
 package com.tp.gestiondepenses.ui.fragments;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.ArrayAdapter;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.google.android.material.button.MaterialButton;
 import com.tp.gestiondepenses.R;
-import com.tp.gestiondepenses.adapter.RevenuAdapter;
 import com.tp.gestiondepenses.model.Revenu;
-import com.tp.gestiondepenses.ui.activities.DetailsRevenusActivity;
 import com.tp.gestiondepenses.ui.activities.FormulaireRevenusActivity;
+import com.tp.gestiondepenses.adapter.RevenuAdapter;
 import com.tp.gestiondepenses.viewmodel.RevenuViewModel;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 public class RevenusFragment extends Fragment {
 
-    private RecyclerView recyclerRevenus;
-    private Button btnVoirDetails, btnAjouterRevenu;
-    private Spinner spinnerMois;
-    private TextView txtTotalRevenus;
-    private RevenuAdapter revenuAdapter;
-    private RevenuViewModel revenuViewModel;
+    private RevenuViewModel viewModel;
+    private RevenuAdapter adapter;
+    private TextView tvTotalAmount, tvVariation;
+    private MaterialButton btnToday, btnWeek, btnMonth, btnYear;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_revenus, container, false);
 
-        recyclerRevenus = view.findViewById(R.id.recyclerRevenus);
-        btnVoirDetails = view.findViewById(R.id.btnVoirDetails);
-        btnAjouterRevenu = view.findViewById(R.id.btnAjouterRevenu);
-        spinnerMois = view.findViewById(R.id.spinnerMois);
-        txtTotalRevenus = view.findViewById(R.id.txtTotalRevenus);
+        tvTotalAmount = view.findViewById(R.id.tvTotalAmount);
+        tvVariation = view.findViewById(R.id.tvVariation);
+        btnToday = view.findViewById(R.id.btnToday);
+        btnWeek = view.findViewById(R.id.btnWeek);
+        btnMonth = view.findViewById(R.id.btnMonth);
+        btnYear = view.findViewById(R.id.btnYear);
+        
+        TextView tvLabelTransactions = view.findViewById(R.id.tvLabelTransactions);
 
-        recyclerRevenus.setLayoutManager(new LinearLayoutManager(getContext()));
-        revenuAdapter = new RevenuAdapter(new ArrayList<>(), null);
-        recyclerRevenus.setAdapter(revenuAdapter);
+        RecyclerView rvTransactions = view.findViewById(R.id.rvTransactions);
+        rvTransactions.setLayoutManager(new LinearLayoutManager(getContext()));
+        
+        adapter = new RevenuAdapter(this::onRevenuClick);
+        rvTransactions.setAdapter(adapter);
 
-        revenuViewModel = new ViewModelProvider(requireActivity()).get(RevenuViewModel.class);
+        viewModel = new ViewModelProvider(this).get(RevenuViewModel.class);
+        adapter.setViewModel(viewModel);
 
-        // Observer revenus
-        revenuViewModel.getAllRevenus().observe(getViewLifecycleOwner(), revenus -> {
-            revenuAdapter = new RevenuAdapter(revenus, revenuViewModel);
-            recyclerRevenus.setAdapter(revenuAdapter);
+        // État initial
+        resetButtons();
+        updateFilterUI(RevenuViewModel.FilterType.MONTH, btnMonth);
 
-            // Calcul du total
-            double total = 0;
-            for (Revenu r : revenus) {
-                total += r.getMontant();
-            }
-            txtTotalRevenus.setText("Total: " + total + " FCFA");
-
-            // Générer la liste des mois dynamiquement
-            List<String> moisList = new ArrayList<>();
-            Calendar cal = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
-
-            // Ajouter le mois courant
-            moisList.add(sdf.format(cal.getTime()));
-
-            // Ajouter les mois précédents si revenus existent
-            for (Revenu r : revenus) {
-                Calendar revCal = Calendar.getInstance();
-                revCal.setTimeInMillis(r.getDate());
-                String mois = sdf.format(revCal.getTime());
-                if (!moisList.contains(mois)) {
-                    moisList.add(mois);
-                }
-            }
-
-            ArrayAdapter<String> moisAdapter = new ArrayAdapter<>(getContext(),
-                    android.R.layout.simple_spinner_item, moisList);
-            spinnerMois.setAdapter(moisAdapter);
+        viewModel.getFilteredRevenus().observe(getViewLifecycleOwner(), revenus -> {
+            adapter.setRevenus(revenus);
         });
 
-        // Bouton détails
-        btnVoirDetails.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), DetailsRevenusActivity.class);
-            startActivity(intent);
+        viewModel.getTotalMensuel().observe(getViewLifecycleOwner(), total -> {
+            if (total != null) {
+                tvTotalAmount.setText(String.format(Locale.FRENCH, "%,.0f FCFA", total).replace(',', '.'));
+            } else {
+                tvTotalAmount.setText("0 FCFA");
+            }
         });
 
-        // Bouton ajouter
-        btnAjouterRevenu.setOnClickListener(v -> {
+        viewModel.getTotalMoisPrecedent().observe(getViewLifecycleOwner(), totalPrev -> {
+            Double totalCurrent = viewModel.getTotalMensuel().getValue();
+            if (totalCurrent != null && totalPrev != null && totalPrev > 0) {
+                double variation = ((totalCurrent - totalPrev) / totalPrev) * 100;
+                tvVariation.setText(String.format(Locale.FRENCH, "📈 %+.0f%% vs mois dernier", variation));
+            } else {
+                tvVariation.setText("📈 +0% vs mois dernier");
+            }
+        });
+
+        btnToday.setOnClickListener(v -> updateFilterUI(RevenuViewModel.FilterType.TODAY, btnToday));
+        btnWeek.setOnClickListener(v -> updateFilterUI(RevenuViewModel.FilterType.WEEK, btnWeek));
+        btnMonth.setOnClickListener(v -> updateFilterUI(RevenuViewModel.FilterType.MONTH, btnMonth));
+        btnYear.setOnClickListener(v -> updateFilterUI(RevenuViewModel.FilterType.YEAR, btnYear));
+
+        tvLabelTransactions.setOnClickListener(v -> {
+            viewModel.setFilter(RevenuViewModel.FilterType.ALL);
+            resetButtons();
+        });
+
+        view.findViewById(R.id.fabAdd).setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), FormulaireRevenusActivity.class);
             startActivity(intent);
         });
 
         return view;
+    }
+
+    private void updateFilterUI(RevenuViewModel.FilterType type, MaterialButton activeBtn) {
+        viewModel.setFilter(type);
+        resetButtons();
+        
+        // Animation de scale au clic
+        ScaleAnimation scale = new ScaleAnimation(0.95f, 1.0f, 0.95f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        scale.setDuration(150);
+        activeBtn.startAnimation(scale);
+
+        activeBtn.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.primary_teal)));
+        activeBtn.setTextColor(Color.WHITE);
+        activeBtn.setStrokeWidth(0);
+    }
+
+    private void resetButtons() {
+        MaterialButton[] buttons = {btnToday, btnWeek, btnMonth, btnYear};
+        int gray = ContextCompat.getColor(requireContext(), R.color.text_gray);
+        int strokeWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics());
+
+        for (MaterialButton btn : buttons) {
+            btn.setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+            btn.setTextColor(gray);
+            btn.setStrokeColor(ColorStateList.valueOf(gray));
+            btn.setStrokeWidth(strokeWidth);
+        }
+    }
+
+    private void onRevenuClick(Revenu revenu) {
+        Intent intent = new Intent(getActivity(), FormulaireRevenusActivity.class);
+        intent.putExtra("REVENU_ID", revenu.getId());
+        startActivity(intent);
     }
 }
