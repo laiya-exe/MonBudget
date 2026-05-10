@@ -1,5 +1,6 @@
 package com.tp.gestiondepenses.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tp.gestiondepenses.R;
 import com.tp.gestiondepenses.adapter.BudgetAdapter;
 import com.tp.gestiondepenses.adapter.TransactionAdapter;
+import com.tp.gestiondepenses.ui.activities.FormulaireDepenseActivity;
 import com.tp.gestiondepenses.viewmodel.BudgetViewModel;
 import com.tp.gestiondepenses.viewmodel.DashboardViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -71,6 +74,17 @@ public class DashboardFragment extends Fragment {
         viewModel.getSolde().observe(getViewLifecycleOwner(), solde -> {
             tvSolde.setText(String.format(Locale.FRANCE, "%,.0f FCFA", solde));
             tvSoldeNet.setText(String.format(Locale.FRANCE, "%,.0f FCFA", solde));
+            
+            // Mise à jour du badge de statut avec les ressources strings
+            if (solde < 0) {
+                tvStatutBadge.setText(R.string.status_deficit);
+                tvStatutBadge.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFFFEBEE)); // Light Red
+                tvStatutBadge.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark));
+            } else {
+                tvStatutBadge.setText(R.string.status_stable);
+                tvStatutBadge.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFE0F2F1)); // Light Green
+                tvStatutBadge.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.holo_green_dark));
+            }
         });
 
         viewModel.getTotalDepenses().observe(getViewLifecycleOwner(), total -> {
@@ -87,12 +101,12 @@ public class DashboardFragment extends Fragment {
 
         viewModel.getBudgetAlerts().observe(getViewLifecycleOwner(), alerts -> {
             budgetAdapter.setBudgets(alerts);
-            // On cache la section si pas d'alertes ?
             view.findViewById(R.id.rv_budget_alerts).setVisibility(alerts.isEmpty() ? View.GONE : View.VISIBLE);
         });
 
         fab.setOnClickListener(v -> {
-            // Navigation vers ajout dépense
+            Intent intent = new Intent(getContext(), FormulaireDepenseActivity.class);
+            startActivity(intent);
         });
     }
 }

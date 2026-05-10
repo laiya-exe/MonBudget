@@ -260,16 +260,6 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tv_voir_tout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:text="VOIR TOUT"
-                    android:textColor="@color/primary_blue"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView

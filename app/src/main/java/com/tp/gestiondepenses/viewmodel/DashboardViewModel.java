@@ -1,58 +1,88 @@
 package com.tp.gestiondepenses.viewmodel;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.Transformations;
 
 import com.tp.gestiondepenses.model.BudgetAvecProgression;
 import com.tp.gestiondepenses.model.Depense;
 import com.tp.gestiondepenses.model.Revenu;
 import com.tp.gestiondepenses.model.Transaction;
-import com.tp.gestiondepenses.repository.MockDashboardRepository;
+import com.tp.gestiondepenses.repository.BudgetRepository;
+import com.tp.gestiondepenses.repository.DepenseRepository;
+import com.tp.gestiondepenses.repository.RevenuRepository;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-public class DashboardViewModel extends ViewModel {
-    private MockDashboardRepository repository = new MockDashboardRepository();
-    private MediatorLiveData<Double> solde = new MediatorLiveData<>();
-    private MediatorLiveData<List<Transaction>> dernieresTransactions = new MediatorLiveData<>();
-    private MutableLiveData<Double> totalDepenses = new MutableLiveData<>();
-    private MutableLiveData<Double> totalRevenus = new MutableLiveData<>();
-    private LiveData<List<BudgetAvecProgression>> budgetAlerts;
+public class DashboardViewModel extends AndroidViewModel {
+    private final DepenseRepository depenseRepo;
+    private final RevenuRepository revenuRepo;
+    private final BudgetRepository budgetRepo;
 
-    public DashboardViewModel() {
+    private final MediatorLiveData<Double> solde = new MediatorLiveData<>();
+    private final MediatorLiveData<List<Transaction>> dernieresTransactions = new MediatorLiveData<>();
+    private final MutableLiveData<Double> totalDepenses = new MutableLiveData<>();
+    private final MutableLiveData<Double> totalRevenus = new MutableLiveData<>();
+    private final LiveData<List<BudgetAvecProgression>> budgetAlerts;
+
+    public DashboardViewModel(@NonNull Application application) {
+        super(application);
+        depenseRepo = new DepenseRepository(application);
+        revenuRepo = new RevenuRepository(application);
+        budgetRepo = new BudgetRepository(application);
+
         int mois = Calendar.getInstance().get(Calendar.MONTH) + 1;
         int annee = Calendar.getInstance().get(Calendar.YEAR);
 
-        LiveData<Double> totalRevenusLive = repository.getTotalRevenusParMois(mois, annee);
-        LiveData<Double> totalDepensesLive = repository.getTotalDepensesParMois(mois, annee);
+        LiveData<Double> totalRevenusLive = revenuRepo.getTotalRevenusParMois(mois, annee);
+        LiveData<Double> totalDepensesLive = depenseRepo.getTotalDepensesParMois(mois, annee);
 
         solde.addSource(totalRevenusLive, rev -> {
-            Double dep = totalDepensesLive.getValue();
-            if (dep != null) solde.setValue(rev - dep);
-            totalRevenus.setValue(rev);
+            totalRevenus.setValue(rev != null ? rev : 0.0);
+            updateSolde();
         });
         solde.addSource(totalDepensesLive, dep -> {
-            Double rev = totalRevenusLive.getValue();
-            if (rev != null) solde.setValue(rev - dep);
-            totalDepenses.setValue(dep);
+            totalDepenses.setValue(dep != null ? dep : 0.0);
+            updateSolde();
         });
 
-        LiveData<List<Depense>> lastDep = repository.getLatestDepenses(5);
-        LiveData<List<Revenu>> lastRev = repository.getLatestRevenus(5);
+        LiveData<List<Depense>> lastDep = depenseRepo.getLatestDepenses(5);
+        LiveData<List<Revenu>> lastRev = revenuRepo.getLatestRevenus(5);
 
         dernieresTransactions.addSource(lastDep, depenses -> {
-            updateTransactions(lastDep.getValue(), lastRev.getValue());
+            updateTransactions(depenses, lastRev.getValue());
         });
         dernieresTransactions.addSource(lastRev, revenus -> {
-            updateTransactions(lastDep.getValue(), lastRev.getValue());
+            updateTransactions(lastDep.getValue(), revenus);
         });
-        
-        budgetAlerts = repository.getBudgetAlerts();
+
+        // Gestion des alertes budgets (seuil >= 90% ou dépassement)
+        budgetAlerts = Transformations.map(budgetRepo.getAllBudgetsWithProgress(mois, annee), budgets -> {
+            List<BudgetAvecProgression> alerts = new ArrayList<>();
+            if (budgets != null) {
+                for (BudgetAvecProgression b : budgets) {
+                    // Utilisation des champs publics de BudgetAvecProgression (pourcentage et estDepasse)
+                    if (b.pourcentage >= 90 || b.estDepasse) {
+                        alerts.add(b);
+                    }
+                }
+            }
+            return alerts;
+        });
+    }
+
+    private void updateSolde() {
+        Double rev = totalRevenus.getValue();
+        Double dep = totalDepenses.getValue();
+        solde.setValue((rev != null ? rev : 0.0) - (dep != null ? dep : 0.0));
     }
 
     private void updateTransactions(List<Depense> depenses, List<Revenu> revenus) {
@@ -62,7 +92,9 @@ public class DashboardViewModel extends ViewModel {
 
         Collections.sort(all, (t1, t2) -> Long.compare(t2.getDate(), t1.getDate()));
 
-        if (all.size() > 5) all = all.subList(0, 5);
+        if (all.size() > 5) {
+            all = all.subList(0, 5);
+        }
 
         dernieresTransactions.setValue(all);
     }

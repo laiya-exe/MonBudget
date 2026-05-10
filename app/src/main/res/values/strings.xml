@@ -18,4 +18,8 @@
     <string name="save_success">Enregistré avec succès</string>
     <string name="delete_success">Supprimé avec succès</string>
     <string name="error_fill_fields">Veuillez remplir tous les champs obligatoires</string>
+
+    <!-- Dashboard Status -->
+    <string name="status_deficit">DÉFICIT</string>
+    <string name="status_stable">STABLE</string>
 </resources>
