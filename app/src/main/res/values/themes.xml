@@ -6,4 +6,6 @@
     </style>
 
     <style name="Theme.MonBudget" parent="Base.Theme.MonBudget" />
+
+    <style name="Theme.MonBudget.NoActionBar" parent="Theme.MonBudget" />
 </resources>

@@ -1,6 +1,7 @@
 package com.tp.gestiondepenses.ui.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -10,7 +11,6 @@ import com.tp.gestiondepenses.R;
 
 public class SplashActivity extends AppCompatActivity {
 
-    // Durée du splash screen en millisecondes (2 secondes)
     private static final long SPLASH_DURATION = 2000;
 
     @Override
@@ -18,17 +18,24 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        // Utilisation d'un Handler pour retarder le lancement de MainActivity
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Redirection vers l'écran principal
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                // On vérifie si l'utilisateur est déjà connecté
+                SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                boolean isLoggedIn = prefs.getBoolean("isLoggedIn", false);
+
+                Intent intent;
+                if (isLoggedIn) {
+                    intent = new Intent(SplashActivity.this, MainActivity.class);
+                } else {
+                    intent = new Intent(SplashActivity.this, LoginActivity.class);
+                }
+
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 startActivity(intent);
-                // Fermer le splash ScreenActivity pour que l'utilisateur ne puisse pas y revenir
                 finish();
-                overridePendingTransition(0, 0); // Évite une double animation
+                overridePendingTransition(0, 0);
             }
         }, SPLASH_DURATION);
     }

@@ -32,6 +32,18 @@
             android:exported="false"
             android:label="Nouvelle dépense" />
 
+        <!-- RegisterActivity : écran d'inscription -->
+        <activity
+            android:name=".ui.activities.RegisterActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MonBudget.NoActionBar" />
+
+        <!-- LoginActivity : écran d'authentification -->
+        <activity
+            android:name=".ui.activities.LoginActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MonBudget.NoActionBar" />
+
         <!-- Splash Screen : écran de lancement -->
         <activity
             android:name=".ui.activities.SplashActivity"
