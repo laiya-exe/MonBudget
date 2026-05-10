@@ -3,17 +3,17 @@
     <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/ic_dashboard"
-        android:title="Accueil" />
+        android:title="ACCUEIL" />
     <item
         android:id="@+id/navigation_depenses"
         android:icon="@drawable/ic_expenses"
-        android:title="Dépenses" />
+        android:title="DÉPENSES" />
     <item
         android:id="@+id/navigation_revenus"
         android:icon="@drawable/ic_income"
-        android:title="Revenus" />
+        android:title="REVENUS" />
     <item
         android:id="@+id/navigation_budgets"
         android:icon="@drawable/ic_budget"
-        android:title="Budgets" />
+        android:title="BUDGETS" />
 </menu>
