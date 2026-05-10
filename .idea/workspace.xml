@@ -207,9 +207,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="156c700e-9671-4c6b-b9d4-d822fca116f0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/adapter/TransactionAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/adapter/TransactionAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/repository/MockDashboardRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/repository/MockDashboardRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/fragments/DashboardFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/fragments/DashboardFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/viewmodel/DashboardViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/viewmodel/DashboardViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_dashboard.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_dashboard.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -268,7 +271,7 @@
 }]]></component>
   <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$" gradleHome="C:\Users\akinl\.gradle\wrapper\dists\gradle-9.4.1-bin\arn2x92ynaizyzdaamcbpbhtj\gradle-9.4.1" javaHome="C:\Program Files\Android\Android Studio\jbr" gradleVersion="9.4.1" />
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5,
