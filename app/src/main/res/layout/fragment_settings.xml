@@ -41,17 +41,6 @@
                         app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
                         app:strokeColor="@color/primary_blue"
                         app:strokeWidth="2dp" />
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom|end"
-                        android:layout_margin="0dp"
-                        app:fabCustomSize="32dp"
-                        app:icon="@drawable/ic_edit"
-                        app:iconSize="16dp"
-                        app:tint="@color/white"
-                        app:backgroundTint="@color/primary_blue" />
                 </FrameLayout>
 
                 <TextView
@@ -59,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Moussa Diop"
+                    android:text="Utilisateur"
                     android:textColor="@color/text_black_dark"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -69,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="moussa.diop@fintech.sn"
+                    android:text="email@example.com"
                     android:textColor="@color/text_gray_light"
                     android:textSize="14sp" />
 
@@ -99,7 +88,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!-- Devise -->
                 <LinearLayout
                     android:id="@+id/btn_currency"
                     android:layout_width="match_parent"
@@ -133,13 +121,6 @@
                         android:text="FCFA"
                         android:textColor="@color/primary_blue"
                         android:textStyle="bold" />
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_subdirectory_arrow_right"
-                        android:rotation="-90"
-                        app:tint="@color/text_gray_light" />
                 </LinearLayout>
 
                 <View
@@ -147,33 +128,6 @@
                     android:layout_height="1dp"
                     android:layout_marginStart="56dp"
                     android:background="@color/divider_gray" />
-
-
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Préférences Section -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="PRÉFÉRENCES"
-            android:textColor="@color/text_gray_medium"
-            android:textSize="12sp"
-            android:textStyle="bold" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="0dp"
-            app:strokeWidth="0dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
 
                 <!-- Alertes budgets -->
                 <LinearLayout
@@ -200,14 +154,13 @@
                     <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/switch_budget_alerts"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true" />
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
-
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Actions Section -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -223,53 +176,39 @@
                 android:padding="16dp">
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_logout"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="Se déconnecter"
+                    android:textColor="@color/primary_blue"
+                    app:icon="@drawable/ic_logout"
+                    app:iconPadding="12dp"
+                    app:iconTint="@color/primary_blue" />
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_reset_data"
                     style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="match_parent"
-                    android:layout_height="64dp"
-                    android:text="Réinitialiser toutes les données"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Réinitialiser les données"
                     android:textColor="@color/red_error"
                     app:icon="@drawable/ic_delete"
                     app:iconPadding="12dp"
-                    app:iconSize="24dp"
                     app:iconTint="@color/red_error"
-                    app:strokeColor="@color/red_error"
-                    app:strokeWidth="1dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:text="Cette action est irréversible et supprimera tout votre historique financier."
-                    android:textColor="@color/text_gray_medium"
-                    android:textSize="12sp" />
+                    app:strokeColor="@color/red_error" />
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Footer -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="MonBudget"
-            android:textColor="@color/primary_blue"
-            android:textSize="22sp"
-            android:alpha="0.4"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:gravity="center"
-            android:text="Version 1.0.0"
-            android:textColor="@color/text_gray_medium"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
+            android:text="MonBudget v1.0"
+            android:textColor="@color/text_gray_light"
+            android:textSize="12sp" />
 
     </LinearLayout>
 

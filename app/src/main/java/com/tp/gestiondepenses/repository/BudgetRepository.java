@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class BudgetRepository {
     private final BudgetDao budgetDao;
@@ -31,15 +30,15 @@ public class BudgetRepository {
         budgetDao = db.budgetDao();
         depenseDao = db.depenseDao();
         categorieDao = db.categorieDao();
-        executor = Executors.newFixedThreadPool(2);
+        executor = AppDatabase.databaseWriteExecutor;
     }
 
-    public LiveData<List<BudgetAvecProgression>> getAllBudgetsWithProgress(int mois, int annee) {
+    public LiveData<List<BudgetAvecProgression>> getAllBudgetsWithProgress(int userId, int mois, int annee) {
         MediatorLiveData<List<BudgetAvecProgression>> result = new MediatorLiveData<>();
 
-        LiveData<List<Budget>> budgetsSource = budgetDao.getAllBudgets(mois, annee);
-        LiveData<List<Categorie>> categoriesSource = categorieDao.getAllCategories();
-        LiveData<List<CategoryTotal>> totalsSource = depenseDao.getTotalsByCategory(mois, annee);
+        LiveData<List<Budget>> budgetsSource = budgetDao.getAllBudgets(userId, mois, annee);
+        LiveData<List<Categorie>> categoriesSource = categorieDao.getAllCategories(userId);
+        LiveData<List<CategoryTotal>> totalsSource = depenseDao.getTotalsByCategory(userId, mois, annee);
 
         result.addSource(budgetsSource, budgets -> combine(result, budgets, categoriesSource.getValue(), totalsSource.getValue()));
         result.addSource(categoriesSource, categories -> combine(result, budgetsSource.getValue(), categories, totalsSource.getValue()));
@@ -87,11 +86,11 @@ public class BudgetRepository {
         result.setValue(list);
     }
 
-    public LiveData<BudgetAvecProgression> getBudgetGlobalWithProgress(int mois, int annee) {
+    public LiveData<BudgetAvecProgression> getBudgetGlobalWithProgress(int userId, int mois, int annee) {
         MediatorLiveData<BudgetAvecProgression> result = new MediatorLiveData<>();
 
-        LiveData<Budget> budgetSource = budgetDao.getBudgetGlobal(mois, annee);
-        LiveData<Double> depenseSource = depenseDao.getTotalDepensesParMois(mois, annee);
+        LiveData<Budget> budgetSource = budgetDao.getBudgetGlobal(userId, mois, annee);
+        LiveData<Double> depenseSource = depenseDao.getTotalDepensesParMois(userId, mois, annee);
 
         result.addSource(budgetSource, b -> {
             if (b != null) {
@@ -132,11 +131,11 @@ public class BudgetRepository {
         return Optional.ofNullable(budgetDao.getBudgetByIdSync(id));
     }
 
-    public LiveData<Double> getTotalDepensesByCategorie(int catId, int mois, int annee) {
-        return depenseDao.getTotalParCategorie(catId, mois, annee);
+    public LiveData<Double> getTotalDepensesByCategorie(int userId, int catId, int mois, int annee) {
+        return depenseDao.getTotalParCategorie(userId, catId, mois, annee);
     }
 
-    public LiveData<Double> getTotalDepensesGlobal(int mois, int annee) {
-        return depenseDao.getTotalDepensesParMois(mois, annee);
+    public LiveData<Double> getTotalDepensesGlobal(int userId, int mois, int annee) {
+        return depenseDao.getTotalDepensesParMois(userId, mois, annee);
     }
 }

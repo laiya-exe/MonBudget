@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_splash_gradient">
 
-    <!-- Logo : Flèche blanche -->
+    <!-- Logo  -->
     <ImageView
         android:id="@+id/ivSplashLogo"
         android:layout_width="60dp"
@@ -32,7 +32,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivSplashLogo" />
 
-    <!-- Petit loader en bas -->
+    <!-- Loader -->
     <ProgressBar
         android:id="@+id/splashLoader"
         style="?android:attr/progressBarStyleSmall"

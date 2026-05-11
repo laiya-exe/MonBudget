@@ -33,6 +33,7 @@ android {
     
     buildFeatures {
         resValues = true
+        viewBinding = true
     }
 }
 

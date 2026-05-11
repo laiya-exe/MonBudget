@@ -1,13 +1,24 @@
 package com.tp.gestiondepenses.model;
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.ColumnInfo;
 
-@Entity(tableName = "revenus")
+@Entity(tableName = "revenus",
+        foreignKeys = @ForeignKey(entity = User.class,
+                parentColumns = "id",
+                childColumns = "user_id",
+                onDelete = ForeignKey.CASCADE),
+        indices = {@Index("user_id")})
 public class Revenu implements Transaction {
 
     @PrimaryKey(autoGenerate = true)
     public int id;
+
+    @ColumnInfo(name = "user_id")
+    private int userId;
 
     public String source;
     public double montant;
@@ -15,8 +26,9 @@ public class Revenu implements Transaction {
     public String description;
     public long created_at;
 
-    public Revenu(int id, String source, double montant, long date, String description, long created_at) {
+    public Revenu(int id, int userId, String source, double montant, long date, String description, long created_at) {
         this.id = id;
+        this.userId = userId;
         this.source = source;
         this.montant = montant;
         this.date = date;
@@ -26,7 +38,8 @@ public class Revenu implements Transaction {
 
     public Revenu() {}
 
-    public Revenu(String source, double montant, long date, String description, long created_at) {
+    public Revenu(int userId, String source, double montant, long date, String description, long created_at) {
+        this.userId = userId;
         this.source = source;
         this.montant = montant;
         this.date = date;
@@ -40,6 +53,14 @@ public class Revenu implements Transaction {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getSource() {

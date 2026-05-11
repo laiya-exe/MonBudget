@@ -10,28 +10,31 @@ import com.tp.gestiondepenses.model.CategorieWithRubriques;
 import com.tp.gestiondepenses.model.Rubrique;
 import com.tp.gestiondepenses.repository.CategorieRepository;
 import com.tp.gestiondepenses.repository.RubriqueRepository;
+import com.tp.gestiondepenses.utils.SessionManager;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class CategorieViewModel extends AndroidViewModel {
-    private CategorieRepository repository;
-    private RubriqueRepository rubriqueRepository;
-    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final CategorieRepository repository;
+    private final RubriqueRepository rubriqueRepository;
+    private final ExecutorService executor;
+    private final int userId;
 
     public CategorieViewModel(@NonNull Application application) {
         super(application);
         repository = new CategorieRepository(application);
         rubriqueRepository = new RubriqueRepository(application);
+        executor = com.tp.gestiondepenses.database.AppDatabase.databaseWriteExecutor;
+        userId = SessionManager.getInstance(application).getUserId();
     }
 
     public LiveData<List<Categorie>> getAllCategories() {
-        return repository.getAllCategories();
+        return repository.getAllCategories(userId);
     }
 
     public LiveData<List<CategorieWithRubriques>> getCategoriesWithRubriques() {
-        return repository.getCategoriesWithRubriques();
+        return repository.getCategoriesWithRubriques(userId);
     }
 
     public LiveData<List<Rubrique>> getRubriquesForCategorie(int catId) {
@@ -39,18 +42,31 @@ public class CategorieViewModel extends AndroidViewModel {
     }
 
     public void insert(Categorie categorie) {
+        categorie.setUserId(userId);
+        categorie.setEstDefaut(false);
         repository.insert(categorie);
     }
 
     public void insertWithRubriques(Categorie categorie, List<String> rubriques) {
+        categorie.setUserId(userId);
+        categorie.setEstDefaut(false);
         repository.insertWithRubriques(categorie, rubriques);
     }
 
     public void update(Categorie categorie) {
-        repository.update(categorie);
+        // On ne devrait pas pouvoir modifier une catégorie par défaut,
+        // mais si c'est une catégorie perso, on s'assure de garder le userId
+        if (categorie.getUserId() != null && categorie.getUserId() == userId) {
+            repository.update(categorie);
+        }
     }
 
     public void delete(Categorie categorie, DeletionCallback callback) {
+        if (categorie.isEstDefaut()) {
+            callback.onResult(false, "Impossible de supprimer une catégorie par défaut");
+            return;
+        }
+        
         executor.execute(() -> {
             int countDepenses = repository.countDepensesForCategorie(categorie.getId());
             int countBudgets = repository.countBudgetsForCategorie(categorie.getId());

@@ -48,15 +48,21 @@ public class MainActivity extends AppCompatActivity {
         // Action du bouton retour
         ivBack.setOnClickListener(v -> navController.navigateUp());
 
-        // Listener pour adapter la TopBar selon la destination
+        // Listener pour adapter la TopBar selon la destination (pour parametres)
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            if (destination.getId() == R.id.navigation_settings) {
+            int id = destination.getId();
+            if (id == R.id.navigation_login || id == R.id.navigation_register) {
+                topBar.setVisibility(View.GONE);
+                bottomNav.setVisibility(View.GONE);
+            } else if (id == R.id.navigation_settings) {
+                topBar.setVisibility(View.VISIBLE);
                 tvTitle.setText("Paramètres");
                 ivSettings.setVisibility(View.GONE);
                 ivBack.setVisibility(View.VISIBLE);
-                bottomNav.setVisibility(View.GONE); // Masquer la barre du bas dans les réglages comme sur l'image
+                bottomNav.setVisibility(View.GONE);
             } else {
-                tvTitle.setText("Bonjour");
+                topBar.setVisibility(View.VISIBLE);
+                tvTitle.setText("Mon Budget");
                 ivSettings.setVisibility(View.VISIBLE);
                 ivBack.setVisibility(View.GONE);
                 bottomNav.setVisibility(View.VISIBLE);

@@ -24,12 +24,12 @@ public interface CategorieDao {
     @Delete
     void delete(Categorie categorie);
 
-    @Query("SELECT * FROM categories ORDER BY nom ASC")
-    LiveData<List<Categorie>> getAllCategories();
+    @Query("SELECT * FROM categories WHERE user_id = :userId OR user_id IS NULL ORDER BY nom ASC")
+    LiveData<List<Categorie>> getAllCategories(int userId);
 
     @Transaction
-    @Query("SELECT * FROM categories ORDER BY nom ASC")
-    LiveData<List<CategorieWithRubriques>> getCategoriesWithRubriques();
+    @Query("SELECT * FROM categories WHERE user_id = :userId OR user_id IS NULL ORDER BY nom ASC")
+    LiveData<List<CategorieWithRubriques>> getCategoriesWithRubriques(int userId);
 
     @Query("SELECT * FROM categories WHERE id = :id")
     Categorie getCategorieByIdSync(int id);
@@ -37,8 +37,8 @@ public interface CategorieDao {
     @Query("SELECT * FROM categories WHERE est_defaut = 1")
     LiveData<List<Categorie>> getDefaultCategories();
 
-    @Query("SELECT * FROM categories WHERE est_defaut = 0")
-    LiveData<List<Categorie>> getCustomCategories();
+    @Query("SELECT * FROM categories WHERE user_id = :userId AND est_defaut = 0")
+    LiveData<List<Categorie>> getCustomCategories(int userId);
 
     @Query("SELECT COUNT(*) FROM depenses WHERE categorie_id = :catId")
     int countDepensesForCategorie(int catId);

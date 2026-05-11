@@ -18,7 +18,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="24dp">
 
-            <!-- Header: Titre (Même style que fragment_revenus) -->
+            <!-- Header: Titre  -->
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
@@ -30,7 +30,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Global Cap Card (Style simple comme fragment_revenus) -->
+            <!-- Global Cap Card  -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardGlobal"
                 android:layout_width="match_parent"

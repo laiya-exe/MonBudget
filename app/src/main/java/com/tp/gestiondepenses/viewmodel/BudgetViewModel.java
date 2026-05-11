@@ -13,16 +13,17 @@ import com.tp.gestiondepenses.model.BudgetAvecProgression;
 import com.tp.gestiondepenses.repository.BudgetRepository;
 import com.tp.gestiondepenses.repository.CategorieRepository;
 import com.tp.gestiondepenses.model.Categorie;
+import com.tp.gestiondepenses.utils.SessionManager;
 
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class BudgetViewModel extends AndroidViewModel {
     private final BudgetRepository repository;
     private final CategorieRepository categorieRepository;
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final ExecutorService executor;
+    private final int userId;
     
     private final MutableLiveData<Integer> selectedMois = new MutableLiveData<>();
     private final MutableLiveData<Integer> selectedAnnee = new MutableLiveData<>();
@@ -34,6 +35,8 @@ public class BudgetViewModel extends AndroidViewModel {
         super(application);
         repository = new BudgetRepository(application);
         categorieRepository = new CategorieRepository(application);
+        executor = com.tp.gestiondepenses.database.AppDatabase.databaseWriteExecutor;
+        userId = SessionManager.getInstance(application).getUserId();
         
         Calendar cal = Calendar.getInstance();
         selectedMois.setValue(cal.get(Calendar.MONTH) + 1);
@@ -41,13 +44,13 @@ public class BudgetViewModel extends AndroidViewModel {
 
         budgetsParCategorie = Transformations.switchMap(selectedMois, m -> 
             Transformations.switchMap(selectedAnnee, a -> 
-                repository.getAllBudgetsWithProgress(m, a)
+                repository.getAllBudgetsWithProgress(userId, m, a)
             )
         );
 
         budgetGlobal = Transformations.switchMap(selectedMois, m -> 
             Transformations.switchMap(selectedAnnee, a -> 
-                repository.getBudgetGlobalWithProgress(m, a)
+                repository.getBudgetGlobalWithProgress(userId, m, a)
             )
         );
     }
@@ -58,14 +61,16 @@ public class BudgetViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Categorie>> getAllCategories() {
-        return categorieRepository.getAllCategories();
+        return categorieRepository.getAllCategories(userId);
     }
 
     public void insert(Budget budget) {
+        budget.setUserId(userId);
         repository.insertBudget(budget);
     }
 
     public void update(Budget budget) {
+        budget.setUserId(userId);
         repository.updateBudget(budget);
     }
 
@@ -84,11 +89,11 @@ public class BudgetViewModel extends AndroidViewModel {
     }
 
     public LiveData<Double> getTotalDepensesByCategorie(int catId, int mois, int annee) {
-        return repository.getTotalDepensesByCategorie(catId, mois, annee);
+        return repository.getTotalDepensesByCategorie(userId, catId, mois, annee);
     }
 
     public LiveData<Double> getTotalDepensesGlobal(int mois, int annee) {
-        return repository.getTotalDepensesGlobal(mois, annee);
+        return repository.getTotalDepensesGlobal(userId, mois, annee);
     }
 
     public double calculerTaux(double consomme, double plafond) {

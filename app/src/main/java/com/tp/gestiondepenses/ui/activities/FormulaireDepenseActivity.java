@@ -144,7 +144,7 @@ public class FormulaireDepenseActivity extends AppCompatActivity {
             viewModel.getDepenseById(depenseId).observe(this, depense -> {
                 if (depense != null && existingDepense == null) {
                     existingDepense = depense;
-                    // Format sans .0 si possible
+                    // Format sans .0
                     if (depense.getMontant() == (long) depense.getMontant()) {
                         etMontant.setText(String.valueOf((long) depense.getMontant()));
                     } else {

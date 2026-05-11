@@ -8,15 +8,15 @@ import com.tp.gestiondepenses.model.Revenu;
 import com.tp.gestiondepenses.model.SourceTotal;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class RevenuRepository {
     private final RevenuDao revenuDao;
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final ExecutorService executor;
 
     public RevenuRepository(Application application) {
         AppDatabase db = AppDatabase.getInstance(application);
         revenuDao = db.revenuDao();
+        executor = AppDatabase.databaseWriteExecutor;
     }
 
     public void insert(Revenu revenu) {
@@ -31,36 +31,36 @@ public class RevenuRepository {
         executor.execute(() -> revenuDao.delete(revenu));
     }
 
-    public LiveData<List<Revenu>> getAllRevenus() {
-        return revenuDao.getAllRevenus();
+    public LiveData<List<Revenu>> getAllRevenus(int userId) {
+        return revenuDao.getAllRevenus(userId);
     }
 
-    public LiveData<List<Revenu>> getRevenusParMois(int mois, int annee) {
-        return revenuDao.getRevenusParMois(mois, annee);
+    public LiveData<List<Revenu>> getRevenusParMois(int userId, int mois, int annee) {
+        return revenuDao.getRevenusParMois(userId, mois, annee);
     }
 
-    public LiveData<List<Revenu>> getRevenusAujourdhui() {
-        return revenuDao.getRevenusAujourdhui();
+    public LiveData<List<Revenu>> getRevenusAujourdhui(int userId) {
+        return revenuDao.getRevenusAujourdhui(userId);
     }
 
-    public LiveData<List<Revenu>> getRevenusCetteSemaine() {
-        return revenuDao.getRevenusCetteSemaine();
+    public LiveData<List<Revenu>> getRevenusCetteSemaine(int userId) {
+        return revenuDao.getRevenusCetteSemaine(userId);
     }
 
-    public LiveData<List<Revenu>> getRevenusCetteAnnee() {
-        return revenuDao.getRevenusCetteAnnee();
+    public LiveData<List<Revenu>> getRevenusCetteAnnee(int userId) {
+        return revenuDao.getRevenusCetteAnnee(userId);
     }
 
-    public LiveData<Double> getTotalRevenusParMois(int mois, int annee) {
-        return revenuDao.getTotalRevenusParMois(mois, annee);
+    public LiveData<Double> getTotalRevenusParMois(int userId, int mois, int annee) {
+        return revenuDao.getTotalRevenusParMois(userId, mois, annee);
     }
 
-    public LiveData<List<SourceTotal>> getTotalBySource(int mois, int annee) {
-        return revenuDao.getTotalBySource(mois, annee);
+    public LiveData<List<SourceTotal>> getTotalBySource(int userId, int mois, int annee) {
+        return revenuDao.getTotalBySource(userId, mois, annee);
     }
 
-    public LiveData<List<Revenu>> getLatestRevenus(int limit) {
-        return revenuDao.getLatestRevenus(limit);
+    public LiveData<List<Revenu>> getLatestRevenus(int userId, int limit) {
+        return revenuDao.getLatestRevenus(userId, limit);
     }
 
     public LiveData<Revenu> getRevenuById(int id) {
@@ -68,7 +68,7 @@ public class RevenuRepository {
     }
 
     // Compatibilité
-    public LiveData<List<Revenu>> getRevenusByMois(int mois, int annee) {
-        return revenuDao.getRevenusParMois(mois, annee);
+    public LiveData<List<Revenu>> getRevenusByMois(int userId, int mois, int annee) {
+        return revenuDao.getRevenusParMois(userId, mois, annee);
     }
 }

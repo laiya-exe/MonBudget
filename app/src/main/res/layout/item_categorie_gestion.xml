@@ -45,7 +45,7 @@
             android:textColor="@color/text_black_dark"
             android:textSize="16sp" />
 
-        <!-- Badge (Optionnel, ex: PERSO) -->
+        <!-- Badge -->
         <TextView
             android:id="@+id/tvBadgePerso"
             android:layout_width="wrap_content"

@@ -61,8 +61,7 @@ public class CategorieAdapter extends RecyclerView.Adapter<CategorieAdapter.Cate
             }
         } catch (Exception ignored) {}
 
-        // Fond d'icône avec une version très claire de la couleur (ou couleur fixe selon design)
-        // Dans le screen, on voit des fonds pastels. On peut utiliser la couleur avec une opacité réduite.
+
         int alphaColor = Color.argb(30, Color.red(color), Color.green(color), Color.blue(color));
         holder.cardIconBg.setCardBackgroundColor(ColorStateList.valueOf(alphaColor));
         

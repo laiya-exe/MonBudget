@@ -29,15 +29,15 @@ public interface BudgetDao {
     @Query("SELECT * FROM budgets WHERE id = :id")
     Budget getBudgetByIdSync(int id);
 
-    // Récupère tous les budgets pour un mois (global + catégorie)
-    @Query("SELECT * FROM budgets WHERE mois = :mois AND annee = :annee")
-    LiveData<List<Budget>> getAllBudgets(int mois, int annee);
+    // Récupère tous les budgets pour un mois (global + catégorie) pour un utilisateur
+    @Query("SELECT * FROM budgets WHERE user_id = :userId AND mois = :mois AND annee = :annee")
+    LiveData<List<Budget>> getAllBudgets(int userId, int mois, int annee);
 
-    // Budget global (categorie_id IS NULL)
-    @Query("SELECT * FROM budgets WHERE categorie_id IS NULL AND mois = :mois AND annee = :annee LIMIT 1")
-    LiveData<Budget> getBudgetGlobal(int mois, int annee);
+    // Budget global (categorie_id IS NULL) pour un utilisateur
+    @Query("SELECT * FROM budgets WHERE user_id = :userId AND categorie_id IS NULL AND mois = :mois AND annee = :annee LIMIT 1")
+    LiveData<Budget> getBudgetGlobal(int userId, int mois, int annee);
 
-    // Budget pour une catégorie spécifique
-    @Query("SELECT * FROM budgets WHERE categorie_id = :catId AND mois = :mois AND annee = :annee LIMIT 1")
-    LiveData<Budget> getBudgetByCategorie(int catId, int mois, int annee);
+    // Budget pour une catégorie spécifique pour un utilisateur
+    @Query("SELECT * FROM budgets WHERE user_id = :userId AND categorie_id = :catId AND mois = :mois AND annee = :annee LIMIT 1")
+    LiveData<Budget> getBudgetByCategorie(int userId, int catId, int mois, int annee);
 }

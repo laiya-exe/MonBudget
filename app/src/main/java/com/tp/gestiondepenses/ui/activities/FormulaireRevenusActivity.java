@@ -37,6 +37,7 @@ public class FormulaireRevenusActivity extends AppCompatActivity {
     private Calendar calendar = Calendar.getInstance();
     private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
     private int revenuId = -1;
+    private Revenu existingRevenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,12 +102,13 @@ public class FormulaireRevenusActivity extends AppCompatActivity {
         btnSave.setText("Mettre à jour");
         
         viewModel.getRevenuById(revenuId).observe(this, revenu -> {
-            if (revenu != null) {
+            if (revenu != null && existingRevenu == null) {
+                existingRevenu = revenu;
                 if (etAmount.getText().toString().isEmpty()) {
                     etAmount.setText(String.valueOf((int)revenu.getMontant()));
                     
                     String source = revenu.getSource();
-                    if (source.endsWith(" (Autre)")) {
+                    if (source != null && source.endsWith(" (Autre)")) {
                         actvSource.setText("Autre", false);
                         tilOtherSource.setVisibility(View.VISIBLE);
                         etOtherSource.setText(source.replace(" (Autre)", ""));
@@ -151,14 +153,21 @@ public class FormulaireRevenusActivity extends AppCompatActivity {
 
         double amount = Double.parseDouble(amountStr);
         
+        Revenu revenu = (revenuId == -1) ? new Revenu() : existingRevenu;
+        if (revenu == null) revenu = new Revenu(); // Sécurité
+        
+        revenu.setSource(source);
+        revenu.setMontant(amount);
+        revenu.setDate(calendar.getTimeInMillis());
+        revenu.setDescription(description);
+        revenu.setCreated_at(System.currentTimeMillis());
+
         if (revenuId == -1) {
-            Revenu newRevenu = new Revenu(source, amount, calendar.getTimeInMillis(), description, System.currentTimeMillis());
-            viewModel.insert(newRevenu);
+            viewModel.insert(revenu);
             Toast.makeText(this, "Revenu ajouté", Toast.LENGTH_SHORT).show();
         } else {
-            Revenu updatedRevenu = new Revenu(source, amount, calendar.getTimeInMillis(), description, System.currentTimeMillis());
-            updatedRevenu.setId(revenuId);
-            viewModel.update(updatedRevenu);
+            revenu.setId(revenuId);
+            viewModel.update(revenu);
             Toast.makeText(this, "Revenu mis à jour", Toast.LENGTH_SHORT).show();
         }
         finish();

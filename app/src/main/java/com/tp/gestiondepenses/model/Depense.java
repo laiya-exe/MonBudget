@@ -9,6 +9,10 @@ import androidx.room.Index;
 
 @Entity(tableName = "depenses",
         foreignKeys = {
+                @ForeignKey(entity = User.class,
+                        parentColumns = "id",
+                        childColumns = "user_id",
+                        onDelete = ForeignKey.CASCADE),
                 @ForeignKey(entity = Categorie.class,
                         parentColumns = "id",
                         childColumns = "categorie_id",
@@ -19,6 +23,7 @@ import androidx.room.Index;
                         onDelete = ForeignKey.SET_NULL)
         },
         indices = {
+                @Index("user_id"),
                 @Index("categorie_id"),
                 @Index("rubrique_id")
         })
@@ -26,6 +31,9 @@ public class Depense implements Transaction {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
+
+    @ColumnInfo(name = "user_id")
+    private int userId;
 
     @ColumnInfo(name = "categorie_id")
     private int categorieId;
@@ -48,7 +56,8 @@ public class Depense implements Transaction {
     }
 
     @Ignore
-    public Depense(int categorieId, Integer rubriqueId, double montant, long date, String description, String moyenPaiement) {
+    public Depense(int userId, int categorieId, Integer rubriqueId, double montant, long date, String description, String moyenPaiement) {
+        this.userId = userId;
         this.categorieId = categorieId;
         this.rubriqueId = rubriqueId;
         this.montant = montant;
@@ -60,6 +69,10 @@ public class Depense implements Transaction {
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
+    
+    public int getUserId() { return userId; }
+    public void setUserId(int userId) { this.userId = userId; }
+
     public int getCategorieId() { return categorieId; }
     public void setCategorieId(int categorieId) { this.categorieId = categorieId; }
     public Integer getRubriqueId() { return rubriqueId; }

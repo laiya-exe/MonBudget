@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_light_gray">
 
-    <!-- Bande bleue en haut -->
+    <!-- Bande -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_top_bar"
         android:layout_width="match_parent"

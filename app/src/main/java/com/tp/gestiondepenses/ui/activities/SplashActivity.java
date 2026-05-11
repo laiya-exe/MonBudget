@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.tp.gestiondepenses.R;
+import com.tp.gestiondepenses.utils.SessionManager;
 
 import java.util.Locale;
 
@@ -26,7 +27,6 @@ public class SplashActivity extends AppCompatActivity {
 
         tvProgressPercent = findViewById(R.id.tvProgressPercent);
 
-        // Animation du pourcentage de 0 à 100% sur 2 secondes
         ValueAnimator animator = ValueAnimator.ofInt(0, 100);
         animator.setDuration(SPLASH_DURATION);
         animator.setInterpolator(new LinearInterpolator());
@@ -38,7 +38,12 @@ public class SplashActivity extends AppCompatActivity {
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                Intent intent;
+                if (SessionManager.getInstance(SplashActivity.this).isLoggedIn()) {
+                    intent = new Intent(SplashActivity.this, MainActivity.class);
+                } else {
+                    intent = new Intent(SplashActivity.this, MainActivity.class);
+                }
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();

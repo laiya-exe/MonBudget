@@ -178,7 +178,7 @@ public class FormulaireCategorieActivity extends AppCompatActivity {
                 .show();
     }
 
-    // --- Adapters ---
+    //  Adapters
 
     class IconPickerAdapter extends RecyclerView.Adapter<IconPickerAdapter.ViewHolder> {
         private final String[] icons;

@@ -30,7 +30,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Filtres (Style de fragment_revenus) -->
+            <!-- Filtres  -->
             <HorizontalScrollView
                 android:id="@+id/svFilters"
                 android:layout_width="match_parent"
@@ -94,7 +94,7 @@
                 </LinearLayout>
             </HorizontalScrollView>
 
-            <!-- Carte Total (Inspirée de fragment_revenus) -->
+            <!-- Carte Total  -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardTotal"
                 android:layout_width="match_parent"

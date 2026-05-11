@@ -11,23 +11,23 @@ import com.tp.gestiondepenses.model.Rubrique;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class CategorieRepository {
-    private CategorieDao dao;
-    private RubriqueDao rubriqueDao;
-    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final CategorieDao dao;
+    private final RubriqueDao rubriqueDao;
+    private final ExecutorService executor;
 
     public CategorieRepository(Application application) {
         AppDatabase db = AppDatabase.getInstance(application);
         dao = db.categorieDao();
         rubriqueDao = db.rubriqueDao();
+        executor = AppDatabase.databaseWriteExecutor;
     }
 
-    public LiveData<List<Categorie>> getAllCategories() { return dao.getAllCategories(); }
-    public LiveData<List<CategorieWithRubriques>> getCategoriesWithRubriques() { return dao.getCategoriesWithRubriques(); }
+    public LiveData<List<Categorie>> getAllCategories(int userId) { return dao.getAllCategories(userId); }
+    public LiveData<List<CategorieWithRubriques>> getCategoriesWithRubriques(int userId) { return dao.getCategoriesWithRubriques(userId); }
     public LiveData<List<Categorie>> getDefaultCategories() { return dao.getDefaultCategories(); }
-    public LiveData<List<Categorie>> getCustomCategories() { return dao.getCustomCategories(); }
+    public LiveData<List<Categorie>> getCustomCategories(int userId) { return dao.getCustomCategories(userId); }
     public Categorie getCategorieByIdSync(int id) { return dao.getCategorieByIdSync(id); }
 
     public int countDepensesForCategorie(int catId) { return dao.countDepensesForCategorie(catId); }

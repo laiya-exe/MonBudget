@@ -13,13 +13,15 @@ import com.tp.gestiondepenses.model.Categorie;
 import com.tp.gestiondepenses.model.Depense;
 import com.tp.gestiondepenses.model.Revenu;
 import com.tp.gestiondepenses.model.Rubrique;
+import com.tp.gestiondepenses.model.User;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Revenu.class, Depense.class, Budget.class, Categorie.class, Rubrique.class}, version = 16, exportSchema = false)
+@Database(entities = {User.class, Revenu.class, Depense.class, Budget.class, Categorie.class, Rubrique.class}, version = 17, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
+    public abstract UserDao userDao();
     public abstract RevenuDao revenuDao();
     public abstract DepenseDao depenseDao();
     public abstract BudgetDao budgetDao();

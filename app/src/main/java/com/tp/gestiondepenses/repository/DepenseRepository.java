@@ -10,42 +10,42 @@ import com.tp.gestiondepenses.model.DepenseTransaction;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class DepenseRepository {
-    private DepenseDao dao;
-    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final DepenseDao dao;
+    private final ExecutorService executor;
 
     public DepenseRepository(Application application) {
         dao = AppDatabase.getInstance(application).depenseDao();
+        executor = AppDatabase.databaseWriteExecutor;
     }
 
-    public LiveData<List<Depense>> getAllDepenses() {
-        return dao.getAllDepenses();
+    public LiveData<List<Depense>> getAllDepenses(int userId) {
+        return dao.getAllDepenses(userId);
     }
 
-    public LiveData<List<Depense>> getDepensesByMois(int mois, int annee) {
-        return dao.getDepensesByMois(mois, annee);
+    public LiveData<List<Depense>> getDepensesByMois(int userId, int mois, int annee) {
+        return dao.getDepensesByMois(userId, mois, annee);
     }
 
-    public LiveData<List<Depense>> getDepensesByDay(long debut, long fin) {
-        return dao.getDepensesByDay(debut, fin);
+    public LiveData<List<Depense>> getDepensesByDay(int userId, long debut, long fin) {
+        return dao.getDepensesByDay(userId, debut, fin);
     }
 
-    public LiveData<Double> getTotalDepensesParMois(int mois, int annee) {
-        return dao.getTotalDepensesParMois(mois, annee);
+    public LiveData<Double> getTotalDepensesParMois(int userId, int mois, int annee) {
+        return dao.getTotalDepensesParMois(userId, mois, annee);
     }
 
-    public LiveData<Double> getTotalDepensesByRange(long debut, long fin) {
-        return dao.getTotalDepensesByRange(debut, fin);
+    public LiveData<Double> getTotalDepensesByRange(int userId, long debut, long fin) {
+        return dao.getTotalDepensesByRange(userId, debut, fin);
     }
 
-    public LiveData<List<CategoryTotal>> getTotalsByCategory(int mois, int annee) {
-        return dao.getTotalsByCategory(mois, annee);
+    public LiveData<List<CategoryTotal>> getTotalsByCategory(int userId, int mois, int annee) {
+        return dao.getTotalsByCategory(userId, mois, annee);
     }
 
-    public LiveData<List<DepenseTransaction>> getLatestDepenses(int limit) {
-        return dao.getLatestDepenses(limit);
+    public LiveData<List<DepenseTransaction>> getLatestDepenses(int userId, int limit) {
+        return dao.getLatestDepenses(userId, limit);
     }
 
     public LiveData<Depense> getDepenseById(int id) {

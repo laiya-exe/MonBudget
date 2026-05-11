@@ -7,15 +7,27 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "budgets",
-        foreignKeys = @ForeignKey(entity = Categorie.class,
-                parentColumns = "id",
-                childColumns = "categorie_id",
-                onDelete = ForeignKey.CASCADE),
-        indices = {@Index(value = {"categorie_id", "mois", "annee"}, unique = true)})
+        foreignKeys = {
+                @ForeignKey(entity = User.class,
+                        parentColumns = "id",
+                        childColumns = "user_id",
+                        onDelete = ForeignKey.CASCADE),
+                @ForeignKey(entity = Categorie.class,
+                        parentColumns = "id",
+                        childColumns = "categorie_id",
+                        onDelete = ForeignKey.CASCADE)
+        },
+        indices = {
+                @Index("user_id"),
+                @Index(value = {"user_id", "categorie_id", "mois", "annee"}, unique = true)
+        })
 public class Budget {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
+
+    @ColumnInfo(name = "user_id")
+    private int userId;
 
     @ColumnInfo(name = "categorie_id")
     private Integer categorieId; // Null pour le budget global
@@ -31,7 +43,8 @@ public class Budget {
         this.periode = "MENSUEL";
     }
 
-    public Budget(Integer categorieId, double montantPlafond, String periode, int mois, int annee) {
+    public Budget(int userId, Integer categorieId, double montantPlafond, String periode, int mois, int annee) {
+        this.userId = userId;
         this.categorieId = categorieId;
         this.montantPlafond = montantPlafond;
         this.periode = periode;
@@ -41,6 +54,9 @@ public class Budget {
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
+
+    public int getUserId() { return userId; }
+    public void setUserId(int userId) { this.userId = userId; }
 
     public Integer getCategorieId() { return categorieId; }
     public void setCategorieId(Integer categorieId) { this.categorieId = categorieId; }

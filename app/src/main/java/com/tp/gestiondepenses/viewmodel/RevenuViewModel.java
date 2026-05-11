@@ -8,6 +8,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import com.tp.gestiondepenses.model.Revenu;
 import com.tp.gestiondepenses.repository.RevenuRepository;
+import com.tp.gestiondepenses.utils.SessionManager;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -15,6 +17,7 @@ public class RevenuViewModel extends AndroidViewModel {
     public enum FilterType { TODAY, WEEK, MONTH, YEAR, ALL }
 
     private final RevenuRepository repository;
+    private final int userId;
     private final MutableLiveData<FilterType> currentFilter = new MutableLiveData<>(FilterType.MONTH);
     private final MutableLiveData<Long> refreshTrigger = new MutableLiveData<>(System.currentTimeMillis());
 
@@ -25,6 +28,7 @@ public class RevenuViewModel extends AndroidViewModel {
     public RevenuViewModel(@NonNull Application application) {
         super(application);
         repository = new RevenuRepository(application);
+        userId = SessionManager.getInstance(application).getUserId();
 
         // Liste filtrée réactive
         filteredRevenus = Transformations.switchMap(currentFilter, filter -> {
@@ -34,30 +38,30 @@ public class RevenuViewModel extends AndroidViewModel {
             
             switch (filter) {
                 case TODAY:
-                    return repository.getRevenusAujourdhui();
+                    return repository.getRevenusAujourdhui(userId);
                 case WEEK:
-                    return repository.getRevenusCetteSemaine();
+                    return repository.getRevenusCetteSemaine(userId);
                 case MONTH:
-                    return repository.getRevenusParMois(month, year);
+                    return repository.getRevenusParMois(userId, month, year);
                 case YEAR:
-                    return repository.getRevenusCetteAnnee();
+                    return repository.getRevenusCetteAnnee(userId);
                 case ALL:
-                    return repository.getAllRevenus();
+                    return repository.getAllRevenus(userId);
                 default:
-                    return repository.getRevenusParMois(month, year);
+                    return repository.getRevenusParMois(userId, month, year);
             }
         });
 
-        // Totaux réactifs (se rafraîchissent au clic ou à l'insertion)
+        // Totaux réactifs
         totalMensuel = Transformations.switchMap(refreshTrigger, t -> {
             Calendar cal = Calendar.getInstance();
-            return repository.getTotalRevenusParMois(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR));
+            return repository.getTotalRevenusParMois(userId, cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR));
         });
 
         totalMoisPrecedent = Transformations.switchMap(refreshTrigger, t -> {
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.MONTH, -1);
-            return repository.getTotalRevenusParMois(cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR));
+            return repository.getTotalRevenusParMois(userId, cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR));
         });
     }
 
@@ -75,7 +79,7 @@ public class RevenuViewModel extends AndroidViewModel {
     }
     
     public LiveData<List<Revenu>> getAllRevenus() {
-        return repository.getAllRevenus();
+        return repository.getAllRevenus(userId);
     }
 
     public LiveData<Double> getTotalMensuel() {
@@ -91,11 +95,13 @@ public class RevenuViewModel extends AndroidViewModel {
     }
 
     public void insert(Revenu revenu) {
+        revenu.setUserId(userId);
         repository.insert(revenu);
         refresh();
     }
 
     public void update(Revenu revenu) {
+        revenu.setUserId(userId);
         repository.update(revenu);
         refresh();
     }

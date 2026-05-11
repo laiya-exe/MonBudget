@@ -6,7 +6,7 @@
 
     <style name="Theme.MonBudget" parent="Base.Theme.MonBudget" />
 
-    <!-- Style pour le carré très arrondi de la navigation -->
+
     <style name="ShapeAppearance.MonBudget.NavIndicator" parent="ShapeAppearance.Material3.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">16dp</item>
