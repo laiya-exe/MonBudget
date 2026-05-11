@@ -6,13 +6,25 @@
     android:layout_height="match_parent"
     android:background="@color/bg_light_gray">
 
-    <!-- Bande bleue en haut (ajustée pour être plus fine et centrée) -->
+    <!-- Bande bleue en haut -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/primary_blue"
         app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_back"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/white" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -23,11 +35,12 @@
             android:layout_marginBottom="10dp"
             android:text="Bonjour"
             android:textColor="@color/white"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/iv_back"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginStart="20dp" />
 
         <ImageView
             android:id="@+id/iv_settings"

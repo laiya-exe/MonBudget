@@ -2,16 +2,15 @@ package com.tp.gestiondepenses.ui.activities;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
-import androidx.core.view.WindowCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.tp.gestiondepenses.R;
@@ -23,47 +22,44 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         EdgeToEdge.enable(this);
-
         setContentView(R.layout.activity_main);
 
-        // IMPORTANT : corrige la top bar
         View topBar = findViewById(R.id.layout_top_bar);
+        TextView tvTitle = findViewById(R.id.tv_title);
+        View ivSettings = findViewById(R.id.iv_settings);
+        View ivBack = findViewById(R.id.iv_back);
 
         ViewCompat.setOnApplyWindowInsetsListener(topBar, (view, insets) -> {
-
             int statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top;
-
-            view.setPadding(
-                    view.getPaddingLeft(),
-                    statusBarHeight,
-                    view.getPaddingRight(),
-                    view.getPaddingBottom()
-            );
-
+            view.setPadding(view.getPaddingLeft(), statusBarHeight, view.getPaddingRight(), view.getPaddingBottom());
             return insets;
         });
 
-        // NavController
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment);
-
         NavController navController = navHostFragment.getNavController();
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         NavigationUI.setupWithNavController(bottomNav, navController);
 
         // Navigation vers les paramètres
-        findViewById(R.id.iv_settings).setOnClickListener(v -> {
-            navController.navigate(R.id.navigation_settings);
-        });
+        ivSettings.setOnClickListener(v -> navController.navigate(R.id.navigation_settings));
 
-        // Optionnel : Masquer l'icône paramètres et changer le titre quand on est sur la page settings
+        // Action du bouton retour
+        ivBack.setOnClickListener(v -> navController.navigateUp());
+
+        // Listener pour adapter la TopBar selon la destination
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             if (destination.getId() == R.id.navigation_settings) {
-                findViewById(R.id.iv_settings).setVisibility(View.GONE);
-                // Vous pouvez aussi changer le titre ici si besoin
+                tvTitle.setText("Paramètres");
+                ivSettings.setVisibility(View.GONE);
+                ivBack.setVisibility(View.VISIBLE);
+                bottomNav.setVisibility(View.GONE); // Masquer la barre du bas dans les réglages comme sur l'image
             } else {
-                findViewById(R.id.iv_settings).setVisibility(View.VISIBLE);
+                tvTitle.setText("Bonjour");
+                ivSettings.setVisibility(View.VISIBLE);
+                ivBack.setVisibility(View.GONE);
+                bottomNav.setVisibility(View.VISIBLE);
             }
         });
     }
