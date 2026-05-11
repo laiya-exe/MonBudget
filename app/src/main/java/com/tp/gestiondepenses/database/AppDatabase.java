@@ -27,7 +27,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract RubriqueDao rubriqueDao();
 
     private static AppDatabase INSTANCE;
-    private static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(4);
+    public static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(4);
 
     public static synchronized AppDatabase getInstance(Context context) {
         if (INSTANCE == null) {
@@ -51,6 +51,13 @@ public abstract class AppDatabase extends RoomDatabase {
             });
         }
     };
+
+    public void resetDatabase() {
+        databaseWriteExecutor.execute(() -> {
+            clearAllTables();
+            insertDefaultData(categorieDao(), rubriqueDao());
+        });
+    }
 
     private static void insertDefaultData(CategorieDao catDao, RubriqueDao rubDao) {
         long alimentationId = catDao.insert(new Categorie("Alimentation", "ic_restaurant", "#FF9800", true));
