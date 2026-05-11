@@ -60,7 +60,7 @@ public class GestionCategoriesActivity extends AppCompatActivity {
         setupAdapterListeners(adapterDefault);
         setupAdapterListeners(adapterCustom);
 
-        findViewById(R.id.btnGérer).setOnClickListener(v -> {
+        findViewById(R.id.fabAdd).setOnClickListener(v -> {
             startActivity(new Intent(this, FormulaireCategorieActivity.class));
         });
     }

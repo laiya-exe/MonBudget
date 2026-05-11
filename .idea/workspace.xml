@@ -222,7 +222,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="156c700e-9671-4c6b-b9d4-d822fca116f0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/activities/DetailDepenseActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/activities/DetailDepenseActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_detail_budget.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_detail_budget.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_detail_depense.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_detail_depense.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_formulaire_budget.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_formulaire_budget.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_formulaire_categorie.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_formulaire_categorie.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_gestion_categories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_gestion_categories.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

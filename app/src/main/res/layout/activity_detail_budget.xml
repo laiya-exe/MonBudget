@@ -22,14 +22,6 @@
             app:title="Détail budget"
             app:titleTextColor="@color/white">
 
-            <ImageView
-                android:id="@+id/btnMenu"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="end"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/ic_more_vert"
-                app:tint="@color/white" />
 
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>

@@ -28,28 +28,6 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="end">
 
-                <ImageView
-                    android:id="@+id/btnSearch"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="16dp"
-                    android:layout_toStartOf="@id/ivAvatar"
-                    android:src="@drawable/ic_search"
-                    app:tint="@color/white" />
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/ivAvatar"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="16dp"
-                    android:padding="1dp"
-                    android:src="@drawable/ic_person"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.SmallComponent"
-                    app:strokeColor="@color/white"
-                    app:strokeWidth="1dp" />
             </RelativeLayout>
         </com.google.android.material.appbar.MaterialToolbar>
 

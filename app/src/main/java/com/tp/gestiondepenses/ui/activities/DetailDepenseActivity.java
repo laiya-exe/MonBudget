@@ -81,10 +81,6 @@ public class DetailDepenseActivity extends AppCompatActivity {
 
         findViewById(R.id.btnEdit).setOnClickListener(v -> openEditForm());
         findViewById(R.id.btnDelete).setOnClickListener(v -> confirmDeletion());
-        
-        findViewById(R.id.btnMenu).setOnClickListener(v -> {
-            // Optionnel: Afficher un menu popup
-        });
     }
 
     private void observeDepense() {
