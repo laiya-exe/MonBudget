@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.tp.gestiondepenses.R;
 import com.tp.gestiondepenses.model.Revenu;
+import com.tp.gestiondepenses.utils.CurrencyUtils;
 import com.tp.gestiondepenses.viewmodel.RevenuViewModel;
 
 import java.text.SimpleDateFormat;
@@ -58,7 +59,7 @@ public class RevenuAdapter extends RecyclerView.Adapter<RevenuAdapter.RevenuView
         Revenu revenu = revenus.get(position);
 
         holder.tvSource.setText(revenu.getSource());
-        holder.tvAmount.setText(String.format(Locale.FRENCH, "+%,.0f FCFA", revenu.getMontant()).replace(',', '.'));
+        holder.tvAmount.setText(CurrencyUtils.formatAmountPositif(holder.itemView.getContext(), revenu.getMontant()));
         
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(revenu.getDate());

@@ -21,11 +21,10 @@ import com.tp.gestiondepenses.R;
 import com.tp.gestiondepenses.adapter.BudgetAdapter;
 import com.tp.gestiondepenses.adapter.TransactionAdapter;
 import com.tp.gestiondepenses.ui.activities.FormulaireDepenseActivity;
+import com.tp.gestiondepenses.utils.CurrencyUtils;
 import com.tp.gestiondepenses.viewmodel.BudgetViewModel;
 import com.tp.gestiondepenses.viewmodel.DashboardViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.Locale;
 
 public class DashboardFragment extends Fragment {
     private DashboardViewModel viewModel;
@@ -76,8 +75,8 @@ public class DashboardFragment extends Fragment {
 
         // Observations
         viewModel.getSolde().observe(getViewLifecycleOwner(), solde -> {
-            tvSolde.setText(String.format(Locale.FRANCE, "%,.0f FCFA", solde));
-            tvSoldeNet.setText(String.format(Locale.FRANCE, "%,.0f FCFA", solde));
+            tvSolde.setText(CurrencyUtils.formatAmount(requireContext(), solde));
+            tvSoldeNet.setText(CurrencyUtils.formatAmount(requireContext(), solde));
             
             if (solde < 0) {
                 tvStatutBadge.setText(R.string.status_deficit);
@@ -91,11 +90,11 @@ public class DashboardFragment extends Fragment {
         });
 
         viewModel.getTotalDepenses().observe(getViewLifecycleOwner(), total -> {
-            tvTotalDepenses.setText(String.format(Locale.FRANCE, "%,.0f FCFA", total));
+            tvTotalDepenses.setText(CurrencyUtils.formatAmount(requireContext(), total));
         });
 
         viewModel.getTotalRevenus().observe(getViewLifecycleOwner(), total -> {
-            tvTotalRevenus.setText(String.format(Locale.FRANCE, "%,.0f FCFA", total));
+            tvTotalRevenus.setText(CurrencyUtils.formatAmountPositif(requireContext(), total));
         });
 
         viewModel.getDernieresTransactions().observe(getViewLifecycleOwner(), transactions -> {
@@ -116,7 +115,25 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Rafraîchir la visibilité au cas où les réglages ont changé
+        // Rafraîchir la visibilité et les montants au cas où la devise a changé
+        refreshUI();
+    }
+
+    private void refreshUI() {
+        if (viewModel.getSolde().getValue() != null) {
+            tvSolde.setText(CurrencyUtils.formatAmount(requireContext(), viewModel.getSolde().getValue()));
+            tvSoldeNet.setText(CurrencyUtils.formatAmount(requireContext(), viewModel.getSolde().getValue()));
+        }
+        if (viewModel.getTotalDepenses().getValue() != null) {
+            tvTotalDepenses.setText(CurrencyUtils.formatAmount(requireContext(), viewModel.getTotalDepenses().getValue()));
+        }
+        if (viewModel.getTotalRevenus().getValue() != null) {
+            tvTotalRevenus.setText(CurrencyUtils.formatAmountPositif(requireContext(), viewModel.getTotalRevenus().getValue()));
+        }
+        
+        transactionAdapter.notifyDataSetChanged();
+        budgetAdapter.notifyDataSetChanged();
+
         if (viewModel.getBudgetAlerts().getValue() != null) {
             updateBudgetAlertsVisibility(viewModel.getBudgetAlerts().getValue().isEmpty());
         } else {

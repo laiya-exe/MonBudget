@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.tp.gestiondepenses.R;
 import com.tp.gestiondepenses.model.Revenu;
+import com.tp.gestiondepenses.utils.CurrencyUtils;
 import com.tp.gestiondepenses.viewmodel.RevenuViewModel;
 
 import java.text.SimpleDateFormat;
@@ -57,7 +58,7 @@ public class DetailsRevenusActivity extends AppCompatActivity {
     }
 
     private void displayRevenu(Revenu revenu) {
-        tvMontant.setText(String.format(Locale.FRANCE, "%.0f FCFA", revenu.getMontant()));
+        tvMontant.setText(CurrencyUtils.formatAmountPositif(this, revenu.getMontant()));
         tvCategorie.setText(revenu.getSource());
         tvDescription.setText(revenu.getDescription());
         

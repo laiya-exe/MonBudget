@@ -47,6 +47,7 @@
                     android:padding="32dp">
 
                     <TextView
+                        android:id="@+id/tvLabelMontantRevenu"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="MONTANT DU REVENU"
@@ -73,6 +74,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tvCurrencySymbolRevenu"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"

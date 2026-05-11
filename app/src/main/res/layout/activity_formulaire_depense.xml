@@ -41,11 +41,12 @@
 
             <!-- Section Montant -->
             <TextView
+                android:id="@+id/tvLabelMontant"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="MONTANT EN FCFA"
+                android:text="MONTANT"
                 android:textColor="@color/text_gray_light"
                 android:textSize="11sp"
                 android:textStyle="bold" />
@@ -90,6 +91,7 @@
                         app:tint="@color/text_gray_light" />
 
                     <TextView
+                        android:id="@+id/tvCurrencySymbol"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"

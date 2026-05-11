@@ -8,8 +8,9 @@
         <item>Autre</item>
     </string-array>
 
-    <string name="format_montant">%1$.0f FCFA</string>
-    <string name="format_montant_negatif">-%1$.0f FCFA</string>
+    <string name="format_montant">%1$,.0f %2$s</string>
+    <string name="format_montant_negatif">-%1$,.0f %2$s</string>
+    <string name="format_montant_positif">+%1$,.0f %2$s</string>
 
     <string name="delete_confirmation_title">Suppression</string>
     <string name="delete_confirmation_msg">Voulez-vous vraiment supprimer cet élément ?</string>

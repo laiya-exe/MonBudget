@@ -23,6 +23,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.tp.gestiondepenses.R;
 import com.tp.gestiondepenses.model.Budget;
 import com.tp.gestiondepenses.model.Categorie;
+import com.tp.gestiondepenses.utils.CurrencyUtils;
 import com.tp.gestiondepenses.viewmodel.BudgetViewModel;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class FormulaireBudgetActivity extends AppCompatActivity {
     private MaterialButtonToggleGroup toggleGroupType;
     private Spinner spinnerCategorie;
     private EditText etMontant;
-    private TextView tvMois, tvAnnee;
+    private TextView tvMois, tvAnnee, tvLabelMontant, tvCurrencySymbol;
     private SwitchMaterial switchAlerte;
     private ImageView ivSelectedCatIcon;
     private MaterialCardView cardIcon;
@@ -103,6 +104,18 @@ public class FormulaireBudgetActivity extends AppCompatActivity {
         switchAlerte = findViewById(R.id.switchAlerte);
         ivSelectedCatIcon = findViewById(R.id.ivSelectedCatIcon);
         cardIcon = findViewById(R.id.cardIcon);
+        tvLabelMontant = findViewById(R.id.tvLabelMontantBudget);
+        tvCurrencySymbol = findViewById(R.id.tvCurrencySymbolBudget);
+
+        // Mise à jour de la devise
+        String currency = CurrencyUtils.getCurrency(this);
+        if (tvLabelMontant != null) tvLabelMontant.setText("MONTANT DU BUDGET (" + currency + ")");
+        if (tvCurrencySymbol != null) tvCurrencySymbol.setText(currency);
+
+        TextView toolbarTitle = findViewById(R.id.tvToolbarTitle);
+        if (toolbarTitle != null) {
+            toolbarTitle.setText(isEditMode ? "Modifier budget" : "Ajouter budget");
+        }
     }
 
     private void setupPickers() {

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.tp.gestiondepenses.R;
 import com.tp.gestiondepenses.model.Revenu;
+import com.tp.gestiondepenses.utils.CurrencyUtils;
 import com.tp.gestiondepenses.viewmodel.RevenuViewModel;
 
 import java.text.SimpleDateFormat;
@@ -56,6 +58,13 @@ public class FormulaireRevenusActivity extends AppCompatActivity {
         tilOtherSource = findViewById(R.id.tilOtherSource);
         btnSave = findViewById(R.id.btnSave);
         btnCancel = findViewById(R.id.btnCancel);
+
+        // Mise à jour de la devise
+        String currency = CurrencyUtils.getCurrency(this);
+        TextView tvLabelMontant = findViewById(R.id.tvLabelMontantRevenu);
+        TextView tvCurrencySymbol = findViewById(R.id.tvCurrencySymbolRevenu);
+        if (tvLabelMontant != null) tvLabelMontant.setText("MONTANT DU REVENU (" + currency + ")");
+        if (tvCurrencySymbol != null) tvCurrencySymbol.setText(currency);
 
         viewModel = new ViewModelProvider(this).get(RevenuViewModel.class);
 

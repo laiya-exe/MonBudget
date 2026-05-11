@@ -126,6 +126,7 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/tv_current_currency"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
@@ -147,93 +148,6 @@
                     android:layout_marginStart="56dp"
                     android:background="@color/divider_gray" />
 
-                <!-- Format date -->
-                <LinearLayout
-                    android:id="@+id/btn_date_format"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_calendar"
-                        app:tint="@color/primary_blue" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_weight="1"
-                        android:text="Format date"
-                        android:textColor="@color/text_black_dark"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:text="JJ/MM/AAAA"
-                        android:textColor="@color/text_gray_light" />
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_subdirectory_arrow_right"
-                        android:rotation="-90"
-                        app:tint="@color/text_gray_light" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="56dp"
-                    android:background="@color/divider_gray" />
-
-                <!-- Langue -->
-                <LinearLayout
-                    android:id="@+id/btn_language"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_public"
-                        app:tint="@color/primary_blue" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_weight="1"
-                        android:text="Langue"
-                        android:textColor="@color/text_black_dark"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:text="Français"
-                        android:textColor="@color/text_gray_light" />
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_subdirectory_arrow_right"
-                        android:rotation="-90"
-                        app:tint="@color/text_gray_light" />
-                </LinearLayout>
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -290,39 +204,6 @@
                         android:checked="true" />
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="56dp"
-                    android:background="@color/divider_gray" />
-
-                <!-- Notifications -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_notifications"
-                        app:tint="@color/primary_blue" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_weight="1"
-                        android:text="Notifications"
-                        android:textColor="@color/text_black_dark"
-                        android:textSize="16sp" />
-
-                    <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/switch_notifications"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

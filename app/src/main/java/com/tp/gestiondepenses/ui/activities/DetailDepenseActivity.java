@@ -18,6 +18,7 @@ import com.tp.gestiondepenses.R;
 import com.tp.gestiondepenses.model.Categorie;
 import com.tp.gestiondepenses.model.Depense;
 import com.tp.gestiondepenses.repository.CategorieRepository;
+import com.tp.gestiondepenses.utils.CurrencyUtils;
 import com.tp.gestiondepenses.viewmodel.CategorieViewModel;
 import com.tp.gestiondepenses.viewmodel.DepenseViewModel;
 
@@ -36,7 +37,6 @@ public class DetailDepenseActivity extends AppCompatActivity {
     private Depense currentDepense;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
-    private final NumberFormat nf = NumberFormat.getInstance(Locale.FRANCE);
 
     private TextView tvMontant, tvCategorie, tvRubrique, tvDate, tvPaiement, tvDescription;
     private ImageView ivCategoryIcon, ivPaymentIcon;
@@ -99,7 +99,7 @@ public class DetailDepenseActivity extends AppCompatActivity {
     }
 
     private void displayDepense(Depense depense) {
-        tvMontant.setText(nf.format(depense.getMontant()) + " FCFA");
+        tvMontant.setText(CurrencyUtils.formatAmount(this, depense.getMontant()));
         tvDate.setText(sdf.format(depense.getDate()));
         
         String mode = depense.getMoyenPaiement();

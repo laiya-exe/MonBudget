@@ -18,6 +18,7 @@ import com.tp.gestiondepenses.model.Categorie;
 import com.tp.gestiondepenses.model.Depense;
 import com.tp.gestiondepenses.repository.CategorieRepository;
 import com.tp.gestiondepenses.ui.activities.DetailDepenseActivity;
+import com.tp.gestiondepenses.utils.CurrencyUtils;
 import com.tp.gestiondepenses.viewmodel.DepenseViewModel;
 
 import java.text.NumberFormat;
@@ -33,7 +34,6 @@ public class DepenseAdapter extends RecyclerView.Adapter<DepenseAdapter.DepenseV
     private final DepenseViewModel depenseViewModel;
     private final CategorieRepository catRepo;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
-    private final NumberFormat nf = NumberFormat.getInstance(Locale.FRANCE);
     private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
 
     public DepenseAdapter(List<Depense> depenses, DepenseViewModel depenseViewModel) {
@@ -59,7 +59,7 @@ public class DepenseAdapter extends RecyclerView.Adapter<DepenseAdapter.DepenseV
     public void onBindViewHolder(@NonNull DepenseViewHolder holder, int position) {
         Depense depense = depenses.get(position);
 
-        holder.tvMontant.setText(nf.format(depense.getMontant()) + " FCFA");
+        holder.tvMontant.setText(CurrencyUtils.formatAmount(holder.itemView.getContext(), depense.getMontant()));
         holder.tvDescription.setText(depense.getDescription());
         holder.tvDate.setText(sdf.format(depense.getDate()));
 

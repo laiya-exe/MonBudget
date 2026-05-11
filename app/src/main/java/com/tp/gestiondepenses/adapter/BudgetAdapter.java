@@ -17,6 +17,7 @@ import com.google.android.material.textview.MaterialTextView;
 import com.tp.gestiondepenses.R;
 import com.tp.gestiondepenses.model.BudgetAvecProgression;
 import com.tp.gestiondepenses.ui.activities.DetailBudgetActivity;
+import com.tp.gestiondepenses.utils.CurrencyUtils;
 import com.tp.gestiondepenses.viewmodel.BudgetViewModel;
 
 import java.util.ArrayList;
@@ -82,8 +83,8 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.BudgetView
             tvCategorie.setText(item.nomCategorie);
             
             // Formatage des montants
-            tvPlafond.setText(String.format(Locale.FRANCE, "/ %.0f FCFA", item.budget.getMontantPlafond()));
-            tvConsomme.setText(String.format(Locale.FRANCE, "%.0f FCFA", item.montantDepense));
+            tvPlafond.setText("/ " + CurrencyUtils.formatAmount(itemView.getContext(), item.budget.getMontantPlafond()));
+            tvConsomme.setText(CurrencyUtils.formatAmount(itemView.getContext(), item.montantDepense));
             tvPourcentage.setText(String.format(Locale.FRANCE, "%.0f%%", item.pourcentage));
 
             // Icône et couleur de fond de l'icône

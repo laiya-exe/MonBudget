@@ -21,6 +21,7 @@ import com.tp.gestiondepenses.R;
 import com.tp.gestiondepenses.adapter.DepenseAdapter;
 import com.tp.gestiondepenses.model.Budget;
 import com.tp.gestiondepenses.model.Categorie;
+import com.tp.gestiondepenses.utils.CurrencyUtils;
 import com.tp.gestiondepenses.viewmodel.BudgetViewModel;
 import com.tp.gestiondepenses.viewmodel.DepenseViewModel;
 
@@ -92,7 +93,7 @@ public class DetailBudgetActivity extends AppCompatActivity {
     }
 
     private void displayBudgetData(Budget budget) {
-        tvPlafond.setText(String.format(Locale.FRANCE, "%.0f FCFA", budget.getMontantPlafond()));
+        tvPlafond.setText(CurrencyUtils.formatAmount(this, budget.getMontantPlafond()));
         
         if (budget.getCategorieId() != null) {
             viewModel.getAllCategories().observe(this, categories -> {
@@ -131,7 +132,7 @@ public class DetailBudgetActivity extends AppCompatActivity {
         double taux = viewModel.calculerTaux(consomme, plafond);
         
         tvConsommePercent.setText(String.format(Locale.FRANCE, "%.0f%%", taux));
-        tvConsommeMontant.setText(String.format(Locale.FRANCE, "%.0f FCFA", consomme));
+        tvConsommeMontant.setText(CurrencyUtils.formatAmount(this, consomme));
 
         progressConsomme.setProgress((int) Math.min(taux, 100));
         

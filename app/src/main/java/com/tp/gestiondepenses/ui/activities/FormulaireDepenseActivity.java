@@ -21,6 +21,7 @@ import com.tp.gestiondepenses.R;
 import com.tp.gestiondepenses.model.Categorie;
 import com.tp.gestiondepenses.model.Depense;
 import com.tp.gestiondepenses.model.Rubrique;
+import com.tp.gestiondepenses.utils.CurrencyUtils;
 import com.tp.gestiondepenses.viewmodel.CategorieViewModel;
 import com.tp.gestiondepenses.viewmodel.DepenseViewModel;
 
@@ -35,7 +36,7 @@ public class FormulaireDepenseActivity extends AppCompatActivity {
     private DepenseViewModel viewModel;
     private CategorieViewModel categorieViewModel;
     private EditText etMontant, etDescription;
-    private TextView tvDate;
+    private TextView tvDate, tvLabelMontant, tvCurrencySymbol;
     private ImageView ivCatIcon;
     private Spinner spinnerCategorie, spinnerRubrique;
     private Calendar calendar = Calendar.getInstance();
@@ -70,6 +71,13 @@ public class FormulaireDepenseActivity extends AppCompatActivity {
         ivCatIcon = findViewById(R.id.ivCatIcon);
         spinnerCategorie = findViewById(R.id.spinnerCategorie);
         spinnerRubrique = findViewById(R.id.spinnerRubrique);
+        tvLabelMontant = findViewById(R.id.tvLabelMontant);
+        tvCurrencySymbol = findViewById(R.id.tvCurrencySymbol);
+
+        // Mise à jour des labels de devise
+        String currency = CurrencyUtils.getCurrency(this);
+        if (tvLabelMontant != null) tvLabelMontant.setText("MONTANT EN " + currency);
+        if (tvCurrencySymbol != null) tvCurrencySymbol.setText(currency);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {

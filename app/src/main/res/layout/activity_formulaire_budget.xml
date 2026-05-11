@@ -24,6 +24,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
+                    android:id="@+id/tvToolbarTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -179,6 +180,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tvLabelMontantBudget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -214,6 +216,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvCurrencySymbolBudget"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBaseline="@id/etMontant"

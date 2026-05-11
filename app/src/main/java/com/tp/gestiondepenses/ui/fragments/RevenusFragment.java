@@ -23,6 +23,7 @@ import com.tp.gestiondepenses.R;
 import com.tp.gestiondepenses.model.Revenu;
 import com.tp.gestiondepenses.ui.activities.FormulaireRevenusActivity;
 import com.tp.gestiondepenses.adapter.RevenuAdapter;
+import com.tp.gestiondepenses.utils.CurrencyUtils;
 import com.tp.gestiondepenses.viewmodel.RevenuViewModel;
 import java.util.Locale;
 
@@ -66,9 +67,9 @@ public class RevenusFragment extends Fragment {
 
         viewModel.getTotalMensuel().observe(getViewLifecycleOwner(), total -> {
             if (total != null) {
-                tvTotalAmount.setText(String.format(Locale.FRENCH, "%,.0f FCFA", total).replace(',', '.'));
+                tvTotalAmount.setText(CurrencyUtils.formatAmount(requireContext(), total));
             } else {
-                tvTotalAmount.setText("0 FCFA");
+                tvTotalAmount.setText(CurrencyUtils.formatAmount(requireContext(), 0));
             }
         });
 
@@ -98,6 +99,16 @@ public class RevenusFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Rafraîchir au cas où la devise a changé
+        if (viewModel.getTotalMensuel().getValue() != null) {
+            tvTotalAmount.setText(CurrencyUtils.formatAmount(requireContext(), viewModel.getTotalMensuel().getValue()));
+        }
+        adapter.notifyDataSetChanged();
     }
 
     private void updateFilterUI(RevenuViewModel.FilterType type, MaterialButton activeBtn) {

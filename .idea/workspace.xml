@@ -213,15 +213,29 @@
   <component name="ChangeListManager">
     <list default="true" id="156c700e-9671-4c6b-b9d4-d822fca116f0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/activities/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/activities/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_commerce.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_donation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_freelance.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_income_default.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_salaryy.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_depense.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_depense.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_revenu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_revenu.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/nav_graph.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/navigation/nav_graph.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/adapter/BudgetAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/adapter/BudgetAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/adapter/DepenseAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/adapter/DepenseAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/adapter/RevenuAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/adapter/RevenuAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/adapter/TopCategoryAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/adapter/TopCategoryAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/adapter/TransactionAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/adapter/TransactionAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/activities/DetailBudgetActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/activities/DetailBudgetActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/activities/DetailDepenseActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/activities/DetailDepenseActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/activities/DetailsRevenusActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/activities/DetailsRevenusActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/activities/FormulaireBudgetActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/activities/FormulaireBudgetActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/activities/FormulaireDepenseActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/activities/FormulaireDepenseActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/activities/FormulaireRevenusActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/activities/FormulaireRevenusActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/adapters/RevenuAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/adapters/RevenuAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/fragments/BudgetsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/fragments/BudgetsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/fragments/DashboardFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/fragments/DashboardFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/fragments/DepensesFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/fragments/DepensesFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/fragments/RevenusFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/fragments/RevenusFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/fragments/SettingsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/fragments/SettingsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/utils/CurrencyUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/utils/CurrencyUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_formulaire_budget.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_formulaire_budget.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_formulaire_depense.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_formulaire_depense.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_formulaire_revenus.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_formulaire_revenus.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

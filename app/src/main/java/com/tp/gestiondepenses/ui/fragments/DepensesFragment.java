@@ -22,6 +22,7 @@ import com.tp.gestiondepenses.R;
 import com.tp.gestiondepenses.adapter.DepenseAdapter;
 import com.tp.gestiondepenses.ui.activities.FormulaireDepenseActivity;
 import com.tp.gestiondepenses.ui.activities.GestionCategoriesActivity;
+import com.tp.gestiondepenses.utils.CurrencyUtils;
 import com.tp.gestiondepenses.viewmodel.DepenseViewModel;
 
 import java.util.ArrayList;
@@ -63,9 +64,9 @@ public class DepensesFragment extends Fragment {
 
         viewModel.getTotalDepensesMois().observe(getViewLifecycleOwner(), total -> {
             if (total != null && tvTotal != null) {
-                tvTotal.setText(String.format(Locale.FRANCE, "%.0f FCFA", total));
+                tvTotal.setText(CurrencyUtils.formatAmount(requireContext(), total));
             } else if (tvTotal != null) {
-                tvTotal.setText("0 FCFA");
+                tvTotal.setText(CurrencyUtils.formatAmount(requireContext(), 0));
             }
         });
 

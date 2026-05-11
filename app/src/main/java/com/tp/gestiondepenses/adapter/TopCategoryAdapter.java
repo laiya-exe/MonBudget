@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.tp.gestiondepenses.R;
 import com.tp.gestiondepenses.model.BudgetAvecProgression;
+import com.tp.gestiondepenses.utils.CurrencyUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class TopCategoryAdapter extends RecyclerView.Adapter<TopCategoryAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         BudgetAvecProgression item = items.get(position);
         holder.tvCategoryName.setText(item.nomCategorie);
-        holder.tvCategoryAmount.setText(String.format(Locale.FRANCE, "%,.0f FCFA", item.montantDepense));
+        holder.tvCategoryAmount.setText(CurrencyUtils.formatAmount(holder.itemView.getContext(), item.montantDepense));
         
         int progress = (int) ((item.montantDepense / maxAmount) * 100);
         holder.progressCategory.setProgress(progress);

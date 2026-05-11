@@ -21,6 +21,7 @@ import com.tp.gestiondepenses.R;
 import com.tp.gestiondepenses.adapter.BudgetAdapter;
 import com.tp.gestiondepenses.model.BudgetAvecProgression;
 import com.tp.gestiondepenses.ui.activities.FormulaireBudgetActivity;
+import com.tp.gestiondepenses.utils.CurrencyUtils;
 import com.tp.gestiondepenses.viewmodel.BudgetViewModel;
 
 import java.util.Locale;
@@ -58,7 +59,7 @@ public class BudgetsFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        cardGlobal = view.findViewById(R.id.cardGlobal); // S'assurer que l'ID existe dans le XML ou utiliser le parent
+        cardGlobal = view.findViewById(R.id.cardGlobal);
         tvGlobalLimit = view.findViewById(R.id.tvGlobalLimit);
         tvGlobalPercent = view.findViewById(R.id.tvGlobalPercent);
         tvGlobalDepense = view.findViewById(R.id.tvGlobalDepense);
@@ -85,22 +86,32 @@ public class BudgetsFragment extends Fragment {
                 updateGlobalCard(budget);
             } else {
                 // Gérer le cas où aucun budget global n'est défini
-                tvGlobalLimit.setText("0 FCFA");
+                tvGlobalLimit.setText(CurrencyUtils.formatAmount(requireContext(), 0));
                 tvGlobalPercent.setText("0%");
                 progressGlobal.setProgress(0);
-                tvGlobalDepense.setText("0 FCFA");
-                tvGlobalRestant.setText("0 FCFA");
+                tvGlobalDepense.setText(CurrencyUtils.formatAmount(requireContext(), 0));
+                tvGlobalRestant.setText(CurrencyUtils.formatAmount(requireContext(), 0));
             }
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Rafraîchir au cas où la devise a changé
+        if (viewModel.budgetGlobal.getValue() != null) {
+            updateGlobalCard(viewModel.budgetGlobal.getValue());
+        }
+        adapter.notifyDataSetChanged();
+    }
+
     private void updateGlobalCard(BudgetAvecProgression item) {
-        tvGlobalLimit.setText(String.format(Locale.FRANCE, "%.0f FCFA", item.budget.getMontantPlafond()));
+        tvGlobalLimit.setText(CurrencyUtils.formatAmount(requireContext(), item.budget.getMontantPlafond()));
         tvGlobalPercent.setText(String.format(Locale.FRANCE, "%.0f%%", item.pourcentage));
-        tvGlobalDepense.setText(String.format(Locale.FRANCE, "%.0f FCFA", item.montantDepense));
+        tvGlobalDepense.setText(CurrencyUtils.formatAmount(requireContext(), item.montantDepense));
         
         double restant = item.budget.getMontantPlafond() - item.montantDepense;
-        tvGlobalRestant.setText(String.format(Locale.FRANCE, "%.0f FCFA", Math.max(0, restant)));
+        tvGlobalRestant.setText(CurrencyUtils.formatAmount(requireContext(), Math.max(0, restant)));
 
         progressGlobal.setProgress((int) Math.min(item.pourcentage, 100));
         

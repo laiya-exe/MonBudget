@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.materialswitch.MaterialSwitch;
 import com.tp.gestiondepenses.R;
 import com.tp.gestiondepenses.database.AppDatabase;
+import com.tp.gestiondepenses.utils.CurrencyUtils;
 
 public class SettingsFragment extends Fragment {
 
@@ -23,6 +25,7 @@ public class SettingsFragment extends Fragment {
     public static final String KEY_BUDGET_ALERTS = "budget_alerts_enabled";
 
     private SharedPreferences sharedPreferences;
+    private TextView tvCurrentCurrency;
 
     @Nullable
     @Override
@@ -36,6 +39,12 @@ public class SettingsFragment extends Fragment {
 
         sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
+        tvCurrentCurrency = view.findViewById(R.id.tv_current_currency);
+        updateCurrencyDisplay();
+
+        // Changement de devise
+        view.findViewById(R.id.btn_currency).setOnClickListener(v -> showCurrencySelectionDialog());
+
         MaterialSwitch switchBudgetAlerts = view.findViewById(R.id.switch_budget_alerts);
         
         // Charger l'état actuel (par défaut true)
@@ -48,6 +57,26 @@ public class SettingsFragment extends Fragment {
 
         // Action de réinitialisation des données
         view.findViewById(R.id.btn_reset_data).setOnClickListener(v -> showResetConfirmationDialog());
+    }
+
+    private void updateCurrencyDisplay() {
+        if (tvCurrentCurrency != null) {
+            tvCurrentCurrency.setText(CurrencyUtils.getCurrency(requireContext()));
+        }
+    }
+
+    private void showCurrencySelectionDialog() {
+        String[] currencies = {"FCFA", "EUR (€)", "USD ($)", "CAD ($)", "GBP (£)"};
+        String[] values = {"FCFA", "€", "$", "$", "£"};
+
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Choisir la devise")
+                .setItems(currencies, (dialog, which) -> {
+                    CurrencyUtils.setCurrency(requireContext(), values[which]);
+                    updateCurrencyDisplay();
+                    Toast.makeText(requireContext(), "Devise mise à jour", Toast.LENGTH_SHORT).show();
+                })
+                .show();
     }
 
     private void showResetConfirmationDialog() {
@@ -66,7 +95,6 @@ public class SettingsFragment extends Fragment {
         
         Toast.makeText(requireContext(), "Données réinitialisées avec succès", Toast.LENGTH_SHORT).show();
         
-        // Retourner à l'écran d'accueil après la réinitialisation
         if (getActivity() != null) {
             getActivity().onBackPressed();
         }

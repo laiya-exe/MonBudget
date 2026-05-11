@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.tp.gestiondepenses.R;
 import com.tp.gestiondepenses.model.Transaction;
+import com.tp.gestiondepenses.utils.CurrencyUtils;
 import com.tp.gestiondepenses.utils.DateUtils;
 
 import java.util.List;
@@ -61,7 +62,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (holder instanceof DepenseViewHolder) {
             DepenseViewHolder h = (DepenseViewHolder) holder;
             h.tvDescription.setText(t.getDescription());
-            h.tvMontant.setText(String.format(Locale.FRANCE, "-%,.0f FCFA", t.getMontant()));
+            h.tvMontant.setText(CurrencyUtils.formatAmountNegatif(context, t.getMontant()));
             h.tvDate.setText(DateUtils.formatDate(t.getDate()));
             
             if (iconResId != 0) {
@@ -73,7 +74,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         } else if (holder instanceof RevenuViewHolder) {
             RevenuViewHolder h = (RevenuViewHolder) holder;
             h.tvSource.setText(t.getCategoryName());
-            h.tvAmount.setText(String.format(Locale.FRANCE, "+%,.0f FCFA", t.getMontant()));
+            h.tvAmount.setText(CurrencyUtils.formatAmountPositif(context, t.getMontant()));
             h.tvDate.setText(DateUtils.formatDate(t.getDate()));
             
             if (iconResId != 0) {
