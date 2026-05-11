@@ -1,22 +1,27 @@
 package com.tp.gestiondepenses.ui.fragments;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.tp.gestiondepenses.R;
 import com.tp.gestiondepenses.adapter.DepenseAdapter;
@@ -26,14 +31,13 @@ import com.tp.gestiondepenses.utils.CurrencyUtils;
 import com.tp.gestiondepenses.viewmodel.DepenseViewModel;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class DepensesFragment extends Fragment {
 
     private DepenseViewModel viewModel;
     private DepenseAdapter adapter;
     private TextView tvTotal;
-    private ChipGroup chipGroupPeriod;
+    private MaterialButton btnToday, btnWeek, btnMonth, btnYear;
 
     @Nullable
     @Override
@@ -94,19 +98,47 @@ public class DepensesFragment extends Fragment {
     }
 
     private void setupFiltres(View view) {
-        chipGroupPeriod = view.findViewById(R.id.chipGroupPeriod);
-        if (chipGroupPeriod != null) {
-            chipGroupPeriod.setOnCheckedChangeListener((group, checkedId) -> {
-                if (checkedId == R.id.chipToday) {
-                    viewModel.setFiltre(DepenseViewModel.Periode.AUJOURDHUI);
-                } else if (checkedId == R.id.chipWeek) {
-                    viewModel.setFiltre(DepenseViewModel.Periode.SEMAINE);
-                } else if (checkedId == R.id.chipMonth) {
-                    viewModel.setFiltre(DepenseViewModel.Periode.MOIS);
-                } else if (checkedId == R.id.chipYear) {
-                    viewModel.setFiltre(DepenseViewModel.Periode.TOUT);
-                }
-            });
+        btnToday = view.findViewById(R.id.btnToday);
+        btnWeek = view.findViewById(R.id.btnWeek);
+        btnMonth = view.findViewById(R.id.btnMonth);
+        btnYear = view.findViewById(R.id.btnYear);
+
+        // État initial
+        resetButtons();
+        updateFilterUI(DepenseViewModel.Periode.MOIS, btnMonth);
+
+        btnToday.setOnClickListener(v -> updateFilterUI(DepenseViewModel.Periode.AUJOURDHUI, btnToday));
+        btnWeek.setOnClickListener(v -> updateFilterUI(DepenseViewModel.Periode.SEMAINE, btnWeek));
+        btnMonth.setOnClickListener(v -> updateFilterUI(DepenseViewModel.Periode.MOIS, btnMonth));
+        btnYear.setOnClickListener(v -> updateFilterUI(DepenseViewModel.Periode.TOUT, btnYear));
+    }
+
+    private void updateFilterUI(DepenseViewModel.Periode periode, MaterialButton activeBtn) {
+        viewModel.setFiltre(periode);
+        resetButtons();
+        
+        // Animation de scale au clic
+        ScaleAnimation scale = new ScaleAnimation(0.95f, 1.0f, 0.95f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        scale.setDuration(150);
+        activeBtn.startAnimation(scale);
+
+        activeBtn.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.primary_blue)));
+        activeBtn.setTextColor(Color.WHITE);
+        activeBtn.setStrokeWidth(0);
+    }
+
+    private void resetButtons() {
+        MaterialButton[] buttons = {btnToday, btnWeek, btnMonth, btnYear};
+        int gray = ContextCompat.getColor(requireContext(), R.color.text_gray);
+        int strokeWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics());
+
+        for (MaterialButton btn : buttons) {
+            if (btn != null) {
+                btn.setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+                btn.setTextColor(gray);
+                btn.setStrokeColor(ColorStateList.valueOf(gray));
+                btn.setStrokeWidth(strokeWidth);
+            }
         }
     }
 }

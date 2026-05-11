@@ -4,142 +4,122 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_light_gray">
+    android:background="@color/bg_light">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:elevation="0dp">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@color/primary_blue"
-            android:paddingHorizontal="16dp"
-            app:contentInsetStart="0dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/ivAvatar"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/bg_circle_white_border"
-                    android:padding="2dp"
-                    android:src="@drawable/ic_person" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="Dépenses"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/ivNotification"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_notifications"
-                    app:tint="@color/white" />
-            </RelativeLayout>
-        </androidx.appcompat.widget.Toolbar>
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/bg_light_gray"
-            android:paddingVertical="8dp"
-            android:scrollbars="none">
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroupPeriod"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:paddingHorizontal="16dp"
-                app:selectionRequired="true"
-                app:singleSelection="true">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipToday"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="38dp"
-                    android:checked="true"
-                    android:text="Aujourd'hui"
-                    android:textColor="@color/white"
-                    app:chipBackgroundColor="@color/primary_blue"
-                    app:chipCornerRadius="50dp"
-                    app:chipStrokeWidth="0dp" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipWeek"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="38dp"
-                    android:text="Semaine"
-                    android:textColor="@color/text_black_dark"
-                    app:chipBackgroundColor="@color/white"
-                    app:chipCornerRadius="50dp"
-                    app:chipStrokeColor="@color/border_gray_light"
-                    app:chipStrokeWidth="1dp" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipMonth"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="38dp"
-                    android:text="Mois"
-                    android:textColor="@color/text_black_dark"
-                    app:chipBackgroundColor="@color/white"
-                    app:chipCornerRadius="50dp"
-                    app:chipStrokeColor="@color/border_gray_light"
-                    app:chipStrokeWidth="1dp" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipYear"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="38dp"
-                    android:text="Année"
-                    android:textColor="@color/text_black_dark"
-                    app:chipBackgroundColor="@color/white"
-                    app:chipCornerRadius="50dp"
-                    app:chipStrokeColor="@color/border_gray_light"
-                    app:chipStrokeWidth="1dp" />
-
-            </com.google.android.material.chip.ChipGroup>
-        </HorizontalScrollView>
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:fillViewport="true">
 
-        <!-- Hidden or small Total text if needed for ViewModel compatibility -->
-        <TextView
-            android:id="@+id/tvTotalDepenses"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerDepenses"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="80dp"
-            tools:listitem="@layout/item_depense" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="24dp">
+
+            <!-- Header: Titre -->
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dépenses"
+                android:textColor="@color/primary_blue"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Filtres (Style de fragment_revenus) -->
+            <HorizontalScrollView
+                android:id="@+id/svFilters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:scrollbars="none"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="4dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnToday"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:text="Aujourd'hui"
+                        android:textAllCaps="false"
+                        android:textColor="@color/text_gray"
+                        app:cornerRadius="24dp"
+                        app:strokeColor="@color/text_gray" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnWeek"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:text="Semaine"
+                        android:textAllCaps="false"
+                        android:textColor="@color/text_gray"
+                        app:cornerRadius="24dp"
+                        app:strokeColor="@color/text_gray" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnMonth"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:text="Mois"
+                        android:textAllCaps="false"
+                        android:textColor="@color/text_gray"
+                        app:cornerRadius="24dp"
+                        app:strokeColor="@color/text_gray" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnYear"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Année"
+                        android:textAllCaps="false"
+                        android:textColor="@color/text_gray"
+                        app:cornerRadius="24dp"
+                        app:strokeColor="@color/text_gray" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- Total Section -->
+            <TextView
+                android:id="@+id/tvTotalDepenses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="0 FCFA"
+                android:textColor="@color/red_amount"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/svFilters"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerDepenses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:paddingBottom="80dp"
+                app:layout_constraintTop_toBottomOf="@id/tvTotalDepenses"
+                tools:listitem="@layout/item_depense" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnMainFab"
