@@ -1,6 +1,8 @@
 package com.tp.gestiondepenses.ui.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,11 +29,12 @@ import java.util.Locale;
 
 public class DashboardFragment extends Fragment {
     private DashboardViewModel viewModel;
-    private BudgetViewModel budgetViewModel; // Utilisé par le BudgetAdapter
+    private BudgetViewModel budgetViewModel;
     
     private TextView tvSolde, tvStatutBadge;
     private TextView tvTotalDepenses, tvTotalRevenus, tvSoldeNet;
     private RecyclerView rvTransactions, rvBudgetAlerts;
+    private View layoutBudgetAlertsSection;
     private TransactionAdapter transactionAdapter;
     private BudgetAdapter budgetAdapter;
 
@@ -54,6 +57,7 @@ public class DashboardFragment extends Fragment {
         
         rvTransactions = view.findViewById(R.id.recycler_dernieres_operations);
         rvBudgetAlerts = view.findViewById(R.id.rv_budget_alerts);
+        layoutBudgetAlertsSection = view.findViewById(R.id.layout_budget_alerts_section);
         
         FloatingActionButton fab = view.findViewById(R.id.fab_add_depense);
 
@@ -75,14 +79,13 @@ public class DashboardFragment extends Fragment {
             tvSolde.setText(String.format(Locale.FRANCE, "%,.0f FCFA", solde));
             tvSoldeNet.setText(String.format(Locale.FRANCE, "%,.0f FCFA", solde));
             
-            // Mise à jour du badge de statut avec les ressources strings
             if (solde < 0) {
                 tvStatutBadge.setText(R.string.status_deficit);
-                tvStatutBadge.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFFFEBEE)); // Light Red
+                tvStatutBadge.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFFFEBEE)); 
                 tvStatutBadge.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark));
             } else {
                 tvStatutBadge.setText(R.string.status_stable);
-                tvStatutBadge.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFE0F2F1)); // Light Green
+                tvStatutBadge.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFE0F2F1));
                 tvStatutBadge.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.holo_green_dark));
             }
         });
@@ -101,12 +104,34 @@ public class DashboardFragment extends Fragment {
 
         viewModel.getBudgetAlerts().observe(getViewLifecycleOwner(), alerts -> {
             budgetAdapter.setBudgets(alerts);
-            view.findViewById(R.id.rv_budget_alerts).setVisibility(alerts.isEmpty() ? View.GONE : View.VISIBLE);
+            updateBudgetAlertsVisibility(alerts.isEmpty());
         });
 
         fab.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), FormulaireDepenseActivity.class);
             startActivity(intent);
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Rafraîchir la visibilité au cas où les réglages ont changé
+        if (viewModel.getBudgetAlerts().getValue() != null) {
+            updateBudgetAlertsVisibility(viewModel.getBudgetAlerts().getValue().isEmpty());
+        } else {
+            updateBudgetAlertsVisibility(true);
+        }
+    }
+
+    private void updateBudgetAlertsVisibility(boolean isEmpty) {
+        SharedPreferences prefs = requireContext().getSharedPreferences(SettingsFragment.PREFS_NAME, Context.MODE_PRIVATE);
+        boolean alertsEnabled = prefs.getBoolean(SettingsFragment.KEY_BUDGET_ALERTS, true);
+
+        if (alertsEnabled && !isEmpty) {
+            layoutBudgetAlertsSection.setVisibility(View.VISIBLE);
+        } else {
+            layoutBudgetAlertsSection.setVisibility(View.GONE);
+        }
     }
 }
