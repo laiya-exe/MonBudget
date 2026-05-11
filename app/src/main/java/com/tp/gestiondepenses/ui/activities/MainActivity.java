@@ -51,5 +51,20 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         NavigationUI.setupWithNavController(bottomNav, navController);
+
+        // Navigation vers les paramètres
+        findViewById(R.id.iv_settings).setOnClickListener(v -> {
+            navController.navigate(R.id.navigation_settings);
+        });
+
+        // Optionnel : Masquer l'icône paramètres et changer le titre quand on est sur la page settings
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            if (destination.getId() == R.id.navigation_settings) {
+                findViewById(R.id.iv_settings).setVisibility(View.GONE);
+                // Vous pouvez aussi changer le titre ici si besoin
+            } else {
+                findViewById(R.id.iv_settings).setVisibility(View.VISIBLE);
+            }
+        });
     }
 }

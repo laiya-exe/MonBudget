@@ -29,4 +29,10 @@
         android:label="Budgets"
         tools:layout="@layout/fragment_budgets" />
 
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.tp.gestiondepenses.ui.fragments.SettingsFragment"
+        android:label="Paramètres"
+        tools:layout="@layout/fragment_settings" />
+
 </navigation>
