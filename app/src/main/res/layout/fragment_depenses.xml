@@ -94,18 +94,76 @@
                 </LinearLayout>
             </HorizontalScrollView>
 
-            <!-- Total Section -->
+            <!-- Carte Total (Inspirée de fragment_revenus) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardTotal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#F0F0F0"
+                app:strokeWidth="1.5dp"
+                app:layout_constraintTop_toBottomOf="@id/svFilters">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="28dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TOTAL DÉPENSES DU MOIS"
+                        android:textColor="@color/text_gray"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.08" />
+
+                    <TextView
+                        android:id="@+id/tvTotalDepenses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="0 FCFA"
+                        android:textColor="@color/red_amount"
+                        android:textSize="36sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1.2dp"
+                        android:layout_marginTop="24dp"
+                        android:background="#F8F8F8" />
+
+                    <TextView
+                        android:id="@+id/tvVariationDepenses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="📉 +0% vs hier"
+                        android:textColor="@color/red_amount"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Section Transactions -->
             <TextView
-                android:id="@+id/tvTotalDepenses"
+                android:id="@+id/tvLabelTransactions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="0 FCFA"
-                android:textColor="@color/red_amount"
-                android:textSize="28sp"
+                android:layout_marginTop="36dp"
+                android:text="Dépenses récentes"
+                android:textColor="@color/black"
+                android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/svFilters"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:drawableStartCompat="@drawable/ic_history"
+                android:drawablePadding="14dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardTotal" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerDepenses"
@@ -115,7 +173,7 @@
                 android:clipToPadding="false"
                 android:nestedScrollingEnabled="false"
                 android:paddingBottom="80dp"
-                app:layout_constraintTop_toBottomOf="@id/tvTotalDepenses"
+                app:layout_constraintTop_toBottomOf="@id/tvLabelTransactions"
                 tools:listitem="@layout/item_depense" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

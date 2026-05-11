@@ -36,7 +36,7 @@ public class DepensesFragment extends Fragment {
 
     private DepenseViewModel viewModel;
     private DepenseAdapter adapter;
-    private TextView tvTotal;
+    private TextView tvTotal, tvVariation;
     private MaterialButton btnToday, btnWeek, btnMonth, btnYear;
 
     @Nullable
@@ -52,6 +52,8 @@ public class DepensesFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(DepenseViewModel.class);
         
         tvTotal = view.findViewById(R.id.tvTotalDepenses);
+        tvVariation = view.findViewById(R.id.tvVariationDepenses);
+        
         RecyclerView recyclerView = view.findViewById(R.id.recyclerDepenses);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         
@@ -67,10 +69,14 @@ public class DepensesFragment extends Fragment {
         });
 
         viewModel.getTotalDepensesMois().observe(getViewLifecycleOwner(), total -> {
-            if (total != null && tvTotal != null) {
-                tvTotal.setText(CurrencyUtils.formatAmount(requireContext(), total));
-            } else if (tvTotal != null) {
-                tvTotal.setText(CurrencyUtils.formatAmount(requireContext(), 0));
+            if (tvTotal != null) {
+                tvTotal.setText(CurrencyUtils.formatAmount(requireContext(), total != null ? total : 0));
+            }
+        });
+
+        viewModel.getEvolutionVsHier().observe(getViewLifecycleOwner(), evolution -> {
+            if (tvVariation != null && evolution != null) {
+                tvVariation.setText(String.format("📉 %s vs hier", evolution));
             }
         });
 
@@ -103,7 +109,7 @@ public class DepensesFragment extends Fragment {
         btnMonth = view.findViewById(R.id.btnMonth);
         btnYear = view.findViewById(R.id.btnYear);
 
-        // État initial
+        // État initial (Mois par défaut)
         resetButtons();
         updateFilterUI(DepenseViewModel.Periode.MOIS, btnMonth);
 

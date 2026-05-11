@@ -212,7 +212,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="156c700e-9671-4c6b-b9d4-d822fca116f0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/fragments/DepensesFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/fragments/DepensesFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_depenses.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_depenses.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -498,12 +499,12 @@
       <map>
         <entry key="com.tp.gestiondepenses">
           <value>
-            <CheckInfo lastCheckTimestamp="1778398759930" />
+            <CheckInfo lastCheckTimestamp="1778498591519" />
           </value>
         </entry>
         <entry key="com.tp.gestiondepenses.test">
           <value>
-            <CheckInfo lastCheckTimestamp="1778398759931" />
+            <CheckInfo lastCheckTimestamp="1778498591517" />
           </value>
         </entry>
       </map>
