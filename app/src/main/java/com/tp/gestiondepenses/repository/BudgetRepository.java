@@ -56,12 +56,13 @@ public class BudgetRepository {
         
         List<BudgetAvecProgression> list = new ArrayList<>();
         for (Budget b : budgets) {
-            String catNom = "Global";
-            String icone = "ic_category";
-            String couleur = "#1C35C9";
-            double spent = 0;
-            
+            // On ne garde que les budgets liés à une catégorie pour la liste
             if (b.getCategorieId() != null) {
+                String catNom = "Inconnue";
+                String icone = "ic_category";
+                String couleur = "#1C35C9";
+                double spent = 0;
+                
                 if (categories != null) {
                     for (Categorie c : categories) {
                         if (c.getId() == (int)b.getCategorieId()) {
@@ -80,10 +81,8 @@ public class BudgetRepository {
                         }
                     }
                 }
-            } else {
-                icone = "ic_public";
+                list.add(new BudgetAvecProgression(b, spent, catNom, icone, couleur));
             }
-            list.add(new BudgetAvecProgression(b, spent, catNom, icone, couleur));
         }
         result.setValue(list);
     }
@@ -95,11 +94,19 @@ public class BudgetRepository {
         LiveData<Double> depenseSource = depenseDao.getTotalDepensesParMois(mois, annee);
 
         result.addSource(budgetSource, b -> {
-            if (b != null) result.setValue(new BudgetAvecProgression(b, depenseSource.getValue() != null ? depenseSource.getValue() : 0, "Global", "ic_public", "#1C35C9"));
+            if (b != null) {
+                result.setValue(new BudgetAvecProgression(b, depenseSource.getValue() != null ? depenseSource.getValue() : 0, "Global", "ic_public", "#1C35C9"));
+            } else {
+                result.setValue(null);
+            }
         });
         result.addSource(depenseSource, d -> {
             Budget b = budgetSource.getValue();
-            if (b != null) result.setValue(new BudgetAvecProgression(b, d != null ? d : 0, "Global", "ic_public", "#1C35C9"));
+            if (b != null) {
+                result.setValue(new BudgetAvecProgression(b, d != null ? d : 0, "Global", "ic_public", "#1C35C9"));
+            } else {
+                result.setValue(null);
+            }
         });
 
         return result;

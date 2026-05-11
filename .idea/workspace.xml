@@ -175,6 +175,16 @@
           <theme>@style/Theme.MonBudget</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_top_category.xml">
+        <config>
+          <theme>@style/Theme.MonBudget</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_transaction_dashboard.xml">
+        <config>
+          <theme>@style/Theme.MonBudget</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/list_item.xml">
         <config>
           <theme>@style/Theme.MonBudget</theme>
@@ -212,8 +222,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="156c700e-9671-4c6b-b9d4-d822fca116f0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/fragments/DepensesFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/tp/gestiondepenses/ui/fragments/DepensesFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_depenses.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_depenses.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

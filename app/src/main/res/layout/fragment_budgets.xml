@@ -67,7 +67,7 @@
                             android:id="@+id/tvGlobalLimit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="500.000 FCFA"
+                            tools:text="500.000 FCFA"
                             android:textColor="@color/primary_blue"
                             android:textSize="36sp"
                             android:textStyle="bold" />
@@ -78,7 +78,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_alignBottom="@id/tvGlobalLimit"
-                            android:text="75%"
+                            tools:text="75%"
                             android:textColor="@color/orange_budget"
                             android:textSize="18sp"
                             android:textStyle="bold" />
@@ -89,7 +89,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="10dp"
                         android:layout_marginTop="20dp"
-                        android:progress="75"
+                        tools:progress="75"
                         app:indicatorColor="@color/orange_budget"
                         app:trackColor="#F0F0F0"
                         app:trackCornerRadius="5dp" />
@@ -111,7 +111,7 @@
                             android:id="@+id/tvGlobalDepense"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="375.000 FCFA"
+                            tools:text="375.000 FCFA"
                             android:textColor="@color/text_black_dark"
                             android:textSize="13sp"
                             android:textStyle="bold" />
@@ -132,7 +132,7 @@
                             android:id="@+id/tvGlobalRestant"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="125.000 FCFA"
+                            tools:text="125.000 FCFA"
                             android:textColor="@color/text_gray"
                             android:textSize="13sp" />
                     </LinearLayout>
