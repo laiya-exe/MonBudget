@@ -3,7 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/navigation_dashboard">
+    app:startDestination="@id/navigation_login">
+
+    <fragment
+        android:id="@+id/navigation_login"
+        android:name="com.tp.gestiondepenses.ui.fragments.LoginFragment"
+        android:label="Connexion"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_login_to_register"
+            app:destination="@id/navigation_register" />
+        <action
+            android:id="@+id/action_login_to_dashboard"
+            app:destination="@id/navigation_dashboard"
+            app:popUpTo="@id/navigation_login"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_register"
+        android:name="com.tp.gestiondepenses.ui.fragments.RegisterFragment"
+        android:label="Inscription"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_register_to_dashboard"
+            app:destination="@id/navigation_dashboard"
+            app:popUpTo="@id/navigation_login"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -28,5 +55,11 @@
         android:name="com.tp.gestiondepenses.ui.fragments.BudgetsFragment"
         android:label="Budgets"
         tools:layout="@layout/fragment_budgets" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.tp.gestiondepenses.ui.fragments.SettingsFragment"
+        android:label="Paramètres"
+        tools:layout="@layout/fragment_settings" />
 
 </navigation>

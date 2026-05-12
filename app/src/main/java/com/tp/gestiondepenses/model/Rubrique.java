@@ -4,14 +4,16 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.ColumnInfo;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 
-@Entity(tableName = "depenses",
+@Entity(tableName = "rubriques",
         foreignKeys = {
                 @ForeignKey(entity = Categorie.class,
                         parentColumns = "id",
                         childColumns = "categorie_id",
-                        onDelete = ForeignKey.RESTRICT), // Empêche de supprimer une catégorie utilisée
-        })
+                        onDelete = ForeignKey.CASCADE),
+        },
+        indices = {@Index("categorie_id")})
 public class Rubrique {
 
     @PrimaryKey(autoGenerate = true)
@@ -20,12 +22,13 @@ public class Rubrique {
     @ColumnInfo(name = "categorie_id")
     private int categorieId;
 
-    private String description;
+    private String nom;
 
-    public Rubrique(int id, int categorieId, String description) {
-        this.id = id;
+    public Rubrique() {}
+
+    public Rubrique(int categorieId, String nom) {
         this.categorieId = categorieId;
-        this.description = description;
+        this.nom = nom;
     }
 
     public int getId() {
@@ -44,11 +47,16 @@ public class Rubrique {
         this.categorieId = categorieId;
     }
 
-    public String getDescription() {
-        return description;
+    public String getNom() {
+        return nom;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    @Override
+    public String toString() {
+        return nom;
     }
 }

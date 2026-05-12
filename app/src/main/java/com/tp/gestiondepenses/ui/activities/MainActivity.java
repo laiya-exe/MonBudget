@@ -1,10 +1,11 @@
 package com.tp.gestiondepenses.ui.activities;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.navigation.NavController;
@@ -19,17 +20,53 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
 
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        // Récupérer le NavController depuis le NavHostFragment
+        View topBar = findViewById(R.id.layout_top_bar);
+        TextView tvTitle = findViewById(R.id.tv_title);
+        View ivSettings = findViewById(R.id.iv_settings);
+        View ivBack = findViewById(R.id.iv_back);
+
+        ViewCompat.setOnApplyWindowInsetsListener(topBar, (view, insets) -> {
+            int statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top;
+            view.setPadding(view.getPaddingLeft(), statusBarHeight, view.getPaddingRight(), view.getPaddingBottom());
+            return insets;
+        });
+
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment);
         NavController navController = navHostFragment.getNavController();
 
-        // Lier le BottomNavigationView au NavController
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         NavigationUI.setupWithNavController(bottomNav, navController);
+
+        // Navigation vers les paramètres
+        ivSettings.setOnClickListener(v -> navController.navigate(R.id.navigation_settings));
+
+        // Action du bouton retour
+        ivBack.setOnClickListener(v -> navController.navigateUp());
+
+        // Listener pour adapter la TopBar selon la destination (pour parametres)
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            int id = destination.getId();
+            if (id == R.id.navigation_login || id == R.id.navigation_register) {
+                topBar.setVisibility(View.GONE);
+                bottomNav.setVisibility(View.GONE);
+            } else if (id == R.id.navigation_settings) {
+                topBar.setVisibility(View.VISIBLE);
+                tvTitle.setText("Paramètres");
+                ivSettings.setVisibility(View.GONE);
+                ivBack.setVisibility(View.VISIBLE);
+                bottomNav.setVisibility(View.GONE);
+            } else {
+                topBar.setVisibility(View.VISIBLE);
+                tvTitle.setText("Mon Budget");
+                ivSettings.setVisibility(View.VISIBLE);
+                ivBack.setVisibility(View.GONE);
+                bottomNav.setVisibility(View.VISIBLE);
+            }
+        });
     }
 }

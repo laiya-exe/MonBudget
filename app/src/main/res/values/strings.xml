@@ -2,9 +2,25 @@
     <string name="app_name">MonBudget</string>
     <string-array name="sources_revenus">
         <item>Salaire</item>
-        <item>Commerce</item>
         <item>Freelance</item>
-        <item>Don</item>
+        <item>Cadeau</item>
+        <item>Vente</item>
         <item>Autre</item>
     </string-array>
+
+    <string name="format_montant">%1$,.0f %2$s</string>
+    <string name="format_montant_negatif">-%1$,.0f %2$s</string>
+    <string name="format_montant_positif">+%1$,.0f %2$s</string>
+
+    <string name="delete_confirmation_title">Suppression</string>
+    <string name="delete_confirmation_msg">Voulez-vous vraiment supprimer cet élément ?</string>
+    <string name="delete">Supprimer</string>
+    <string name="cancel">Annuler</string>
+    <string name="save_success">Enregistré avec succès</string>
+    <string name="delete_success">Supprimé avec succès</string>
+    <string name="error_fill_fields">Veuillez remplir tous les champs obligatoires</string>
+
+    <!-- Dashboard Status -->
+    <string name="status_deficit">DÉFICIT</string>
+    <string name="status_stable">STABLE</string>
 </resources>

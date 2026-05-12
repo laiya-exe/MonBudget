@@ -6,11 +6,31 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/logo_monbudget"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/logo_monbudget"
         android:supportsRtl="true"
         android:theme="@style/Theme.MonBudget">
+
+        <activity
+            android:name=".ui.activities.DetailDepenseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.FormulaireCategorieActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.GestionCategoriesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.DetailBudgetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.FormulaireBudgetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.FormulaireDepenseActivity"
+            android:exported="false"
+            android:label="Nouvelle dépense" />
 
         <!-- Splash Screen : écran de lancement -->
         <activity
@@ -27,13 +47,20 @@
         <activity android:name=".ui.activities.MainActivity" />
 
         <!-- RevenusActivity -->
-        <activity android:name=".ui.activities.RevenusActivity" android:exported="true" />
+        <activity
+            android:name=".ui.activities.RevenusActivity"
+            android:exported="true" />
 
         <!-- DetailsRevenusActivity -->
-        <activity android:name=".ui.activities.DetailsRevenusActivity" android:exported="true" />
+        <activity
+            android:name=".ui.activities.DetailsRevenusActivity"
+            android:exported="true" />
 
         <!-- FormulaireRevenusActivity -->
-        <activity android:name=".ui.activities.FormulaireRevenusActivity" android:exported="true" />
+        <activity
+            android:name=".ui.activities.FormulaireRevenusActivity"
+            android:exported="true" />
 
     </application>
+
 </manifest>

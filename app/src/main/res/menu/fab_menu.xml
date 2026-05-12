@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_add_depense"
+        android:title="Ajouter une dépense" />
+    <item
+        android:id="@+id/action_manage_categories_rubriques"
+        android:title="Catégories et Rubriques" />
+</menu>
