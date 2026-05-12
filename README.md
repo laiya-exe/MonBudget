@@ -1,118 +1,67 @@
-# Application :  MonBudget
+# MonBudget
 
-Projet TP Android - Application de gestion des dépenses personnelles
+**MonBudget** est une application Android de gestion des finances personnelles permettant de suivre ses dépenses, de gérer ses revenus et de définir des budgets par catégorie. Développée en Java, elle suit les principes de l'architecture moderne Android (MVVM).
 
 ---
 
-## Technologies utilisées
+## Fonctionnalités
 
-- Java
+- **Tableau de Bord** : Vue d'ensemble de la situation financière actuelle.
+- **Gestion des Dépenses** : Enregistrement, modification et suivi détaillé des dépenses.
+- **Gestion des Revenus** : Suivi des différentes sources de revenus.
+- **Budgets Personnalisés** : Création de budgets par catégories avec indicateur de progression.
+- **Catégorisation** : Organisation des transactions par catégories et rubriques.
+- **Authentification** : Système de connexion et d'inscription sécurisé.
+- **Navigation Fluide** : Utilisation d'une barre de navigation inférieure (Bottom Navigation) pour un accès rapide.
+
+---
+
+## Stack Technique
+
+- **Langage** : Java (JDK 11+)
+- **Architecture** : MVVM (Model-View-ViewModel)
+- **Composants Jetpack** :
+    - **Room** : Persistance des données locale (SQLite).
+    - **ViewModel & LiveData** : Gestion du cycle de vie et données réactives.
+    - **Navigation Component** : Gestion des flux de navigation et fragments.
+    - **View Binding** : Interaction sécurisée avec les vues XML.
+- **UI/UX** :
+    - Material Design 3
+    - RecyclerView & CardView
+    - ConstraintLayout pour des interfaces flexibles.
+
+---
+
+## Structure du Projet
+
+Le projet est organisé selon le pattern MVVM pour une meilleure maintenabilité :
+
+- `ui/` : Activités, Fragments et Adapteurs pour l'affichage.
+- `viewmodel/` : Logique métier et liaison entre la base de données et l'interface.
+- `repository/` : Couche d'abstraction pour l'accès aux données.
+- `model/` : Entités Room et modèles de données.
+- `database/` : Configuration de la base de données Room et des DAOs.
+- `utils/` : Classes utilitaires (formatage, constantes).
+
+---
+
+## Installation et Configuration
+
+### 1. Prérequis
 - Android Studio
-- Gradle
-- Firebase (jsp encore si ce sera utilisé)
+- Android SDK 36 (targetSdk)
+- Min SDK 23 (Android 5.0)
 
----
-
-##  Installation du projet pour vous 
-
-### 1. Cloner le dépôt
-
+### 2. Cloner le projet
 ```bash
 git clone https://github.com/laiya-exe/MonBudget.git
-````
-
-### 2. Ouvrir dans Android Studio
-
-* Lancer Android Studio
-* Cliquer sur **File > Open**
-* Sélectionner le dossier du projet que vous venez de cloner 
-
----
-
-##  Configuration requise
-
-### Android SDK
-
-Assurez-vous d’avoir installé Android SDK via Android Studio.
-
-Normalement `local.properties` est géneré par Android Studio automatiquement. Si besoin de configurer `local.properties` :
-
-```properties
-sdk.dir=/chemin/vers/votre/Android/Sdk
 ```
 
----
+### 3. Build
+Ouvrez le projet dans Android Studio et synchronisez Gradle. Les dépendances seront automatiquement téléchargées.
 
-## Build et exécution
-
-1. Synchroniser Gradle (Android Studio le fait automatiquement)
-2. Attendre le téléchargement des dépendances
 
 ---
 
-## Fichiers ignorés (important)
-
-Ce projet ignore automatiquement :
-
-* `.gradle/`
-* `build/`
-* `local.properties`
-* `*.iml`
-* `.idea/`
-* `*.keystore`
-* `google-services.json`
-
----
-
-##  Collaboration
-
-Pour éviter les conflits :
-
-* Avant de commencer a travailler **(A CHAQUE FOIS)** :
-
-```bash
-git checkout main
-git pull origin main
-```
-
-* Toujours créer une nouvelle branche **AVANT DE CODER** (branche pour fonctionalite de login par exemple) :
-
-```bash
-git checkout -b feature/login
-```
-
-* Faire des commits clairs :
-
-```bash
-git add .
-git commit -m "Ajout de la fonctionnalité login"
-```
-
-* Pusher sur sa branche personnelle
-
-```bash
-git push origin feature/login
-```
-👉 Important : tu pushes ta branche, pas main.
-
----
-
-* Créer la Pull Request sur GitHub
-
-
-Aller sur https://github.com/laiya-exe/MonBudget . Tu verras un bouton : 👉 “pull request”. Cliquer dessus et remplir : Titre (ex: "Ajout login"). Description (ce que tu as fait). Cliquer : Create Pull Request
-
-👉 Ensuite on s'entend que c'est bon avait de valider et fusionner avec la branche main
-
----
-
-## 🧠 Workflow résumé
-
-1. Pull main
-2. Créer une branche
-3. Coder
-4. Commit
-5. Push branche
-6. Pull Request
-7. Review
-8. Merge
+## Licence
+Application réalisée dans le cadre d'un Projet Android.
